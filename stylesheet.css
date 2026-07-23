@@ -16,8 +16,6 @@
   --offset: 0.25rem;
 
   --spacing: 1rem;
-
-  --seen-card-blurred: 1; /* Seen cards: `0` normal, `1` slightly blurred. */
 }
 
 @font-face {
@@ -422,26 +420,14 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   box-shadow: none !important;
 }
 
-/* Make "seen" cards blurred if specified. */
-@container style(--seen-card-blurred: 1) {
-  .cardIndicators:has(.playedIndicator.indicator) {
-    right: unset !important;
-    top: unset !important;
-    height: 100% !important;
-    width: 100% !important;
-    -webkit-backdrop-filter: blur(2px) !important;
-    backdrop-filter: blur(2px) !important;
-  }
-  .playedIndicator.indicator {
-    height: 100% !important;
-    width: 100% !important;
-  }
-  .playedIndicator.indicator > * {
-    position: absolute !important;
-    top: 0.225em !important;
-    right: 0.225em !important;
-  }
+/* Distinguish "seen" cards. */
+.cardBox:has(.playedIndicator.indicator) {
+  opacity: 0.5 !important;
 }
+.cardBox:has(.playedIndicator.indicator) bdi {
+  color: var(--focus) !important;
+}
+
 /* Progress bar on cards */
 .innerCardFooter {
   margin: 0.5em !important;
