@@ -1,10 +1,14 @@
 :root {
   --focus: #aaaaaa;
   --background: #0f0f0f;
+  --faint: #262626;
   --transparent: #00000040;
 
   --text: #eeeeee;
   --contrast: var(--text);
+
+  --highlight: #088199;
+  --highlight-hover: color-mix(in srgb, var(--highlight) 60%, white);
 
   --border: 0.1rem;
   --radius: 0.5rem;
@@ -21,7 +25,7 @@ body {
   color: var(--text) !important;
   background: var(--background) !important;
   background-color: var(--background) !important;
-  color-scheme: light dark;
+  color-scheme: dark;
 }
 
 .pageTitleWithDefaultLogo {
@@ -35,43 +39,62 @@ body {
   border-color: var(--contrast);
 }
 
+/* Disable transitions/animations on anything that shouldn't visibly
+   fade/flicker (lazy-loaded images, blurhash placeholders, focus states). */
+.itemAction,
+.lazy,
+.blurhashed,
+.lazy-image-fadein-fast,
+.show-focus * {
+  transition: none !important;
+  -webkit-animation: none !important;
+  animation: none !important;
+}
+
+/* TV focus: never "explode". */
+.show-focus:focus,
+.show-focus:hover,
+.show-focus:focus *,
+.show-focus:hover *,
+.emby-select:focus,
+.emby-select:hover,
+.emby-select:focus *,
+.emby-select:hover * {
+  transform: none !important;
+}
+
 /* ==========================================================================
    Backgrounds (pages, panels, dialogs)
    ========================================================================== */
 
-.backgroundContainer,
-.pageTabContent,
-.paperList,
-.formDialogFooter,
-.detailPagePrimaryContainer,
-.detailPageSecondaryContainer,
-.inputContainer input,
-.emby-select-withcolor,
-.selectContainer select,
-.inputContainer textarea {
+.backgroundContainer {
   background: var(--background) !important;
 }
 
-.detailPagePrimaryContainer,
-.detailRibbon {
-  color: var(--text) !important;
+.pageTabContent,
+.detailRibbon,
+.detailPageSecondaryContainer {
+  background: transparent !important;
 }
 
+.inputContainer input,
+.selectContainer select,
+.inputContainer textarea {
+  background: var(--faint) !important;
+}
+
+/* "Frosted glass" panels: transparent + blurred backdrop.  */
 .skinHeader,
 .skinHeader.semiTransparent,
 .mainDrawer,
-.listItem:hover:not(.actionSheetMenuItem) {
+.listItem:hover:not(.actionSheetMenuItem),
+.cardBox button:not(.actionSheetMenuItem),
+.playedIndicator,
+.countIndicator,
+.sliderBubble:not(.hide) {
   background: var(--transparent) !important;
   -webkit-backdrop-filter: blur(var(--radius)) !important;
   backdrop-filter: blur(var(--radius)) !important;
-}
-.itemAction,
-.lazy,
-.blurhashed,
-.lazy-image-fadein-fast {
-  transition: none !important;
-  -webkit-animation: none !important;
-  animation: none !important;
 }
 
 /* ==========================================================================
@@ -97,11 +120,13 @@ button {
   color: var(--text) !important;
 }
 
+.playstatebutton-icon-played,
+.ratingbutton-icon-withrating {
+  color: var(--highlight) !important;
+}
+
 .cardBox button:not(.actionSheetMenuItem) {
   border-radius: var(--radius) !important;
-  background: transparent !important;
-  -webkit-backdrop-filter: blur(var(--radius)) !important;
-  backdrop-filter: blur(var(--radius)) !important;
 }
 
 .emby-scrollbuttons-button,
@@ -115,20 +140,39 @@ button {
   transform: none !important;
 }
 
-/* -- hover / focused states (color accents) ------------------------------- */
+/* -- hover / focused states (color accents) -------------------------------
+   Mouse hover and TV-remote focus share the same accent color, so both
+   are handled together per element type below. */
 
 .button-link,
 .selectLabelFocused,
 .skinHeader button:hover,
 .emby-tab-button-active,
 .emby-button:hover,
-.cardBox button:hover {
+.cardBox button:hover,
+button:not(.cardBox button):not(.skinHeader button):hover {
   color: var(--focus) !important;
 }
 
 button:not(.cardBox button):not(.skinHeader button):hover {
   background: transparent !important;
+}
+
+/* -- TV equivalents for hover/focus ------------------------------- */
+
+button.show-focus:focus,
+button.show-focus:hover,
+button.show-focus:focus *,
+button.show-focus:hover *,
+.cardBox button.show-focus:focus,
+.cardBox button.show-focus:hover {
   color: var(--focus) !important;
+}
+.show-focus:focus:not(.card):not(button),
+.show-focus:hover:not(.card):not(button) {
+  color: var(--background) !important;
+  background: var(--contrast) !important;
+  border-color: var(--contrast) !important;
 }
 
 .checkboxIcon::before {
@@ -139,15 +183,32 @@ button:not(.cardBox button):not(.skinHeader button):hover {
   border-color: var(--focus) !important;
 }
 
+/* Playback (OSD) control. */
+#videoOsdPage button,
+#videoOsdPage input,
+#videoOsdPage .show-focus:focus,
+#videoOsdPage .show-focus:hover {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Played/rating hover. */
+.playstatebutton-icon-played:hover,
+.ratingbutton-icon-withrating:hover,
+button:hover .playstatebutton-icon-played,
+button:hover .ratingbutton-icon-withrating,
+button.show-focus:focus .playstatebutton-icon-played,
+button.show-focus:hover .playstatebutton-icon-played,
+button.show-focus:focus .ratingbutton-icon-withrating,
+button.show-focus:hover .ratingbutton-icon-withrating {
+  color: var(--highlight-hover) !important;
+}
+
 /* ==========================================================================
    Forms & inputs
    ========================================================================== */
 
-.checkboxOutline,
-input,
-button.raised,
-.emby-select-withcolor,
-.inputContainer textarea {
+.checkboxOutline {
   border-radius: var(--radius) !important;
   border: var(--border) solid var(--contrast) !important;
 }
@@ -193,6 +254,15 @@ button.raised,
   background-color: var(--transparent) !important;
 }
 
+.sliderBubble:not(.hide) {
+  color: var(--text) !important;
+  border-radius: var(--radius) !important;
+}
+.sliderBubble:not(.hide) h1 {
+  font-size: 1.5rem !important;
+  padding: var(--offset) !important;
+}
+
 /* ==========================================================================
    Cards, indicators & progress bars
    ========================================================================== */
@@ -212,9 +282,6 @@ button.raised,
 .playedIndicator,
 .countIndicator {
   color: var(--text) !important;
-  background: transparent !important;
-  -webkit-backdrop-filter: blur(var(--radius)) !important;
-  backdrop-filter: blur(var(--radius)) !important;
 }
 
 /* Progress bar on cards */
@@ -229,6 +296,24 @@ button.raised,
 .itemProgressBarForeground {
   background: var(--contrast) !important;
   border-radius: var(--round) !important;
+}
+
+/* TV-only: card focus/hover outline. Cards get an outline + fill instead
+   of the button treatment above, since a whole card (not just an icon)
+   needs to read as selected from across the room. */
+.card.show-focus:not(.show-animation) .cardBox.visualCardBox,
+.card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable,
+.card.show-focus:not(.show-animation) .cardPadder {
+  background: transparent !important; /* "behind" the border */
+  outline: var(--radius) solid transparent !important;
+}
+
+.card.show-focus:not(.show-animation):focus .cardBox.visualCardBox,
+.card.show-focus:not(.show-animation):focus .cardBox:not(.visualCardBox) .cardScalable,
+.card.show-focus:not(.show-animation):hover .cardBox.visualCardBox,
+.card.show-focus:not(.show-animation):hover .cardBox:not(.visualCardBox) .cardScalable {
+  background: var(--contrast) !important; /* "behind" the border */
+  border-color: var(--contrast) !important;
 }
 
 /* ==========================================================================
@@ -249,6 +334,10 @@ button.raised,
   border: var(--border) solid var(--contrast) !important;
   border-radius: var(--radius) !important;
 }
+
+/* TV-only: action sheet rows use the same reverse-highlight as other
+   remote-focused rows (see the generic show-focus rule above), but need
+   square corners and the button + its label to swap color together. */
 .actionSheetScroller button.show-focus {
   border-radius: 0 !important;
 }
@@ -261,89 +350,10 @@ button.raised,
   color: var(--background) !important;
 }
 
-/* TODO: FIKS .actionSheet FOR MOBIL */
+/* TODO: fix .actionSheet on mobile */
 
 .actionsheetDivider {
   height: unset !important;
   margin: var(--border) !important;
   background: unset !important;
-}
-
-/* ==========================================================================
-   TV-specific
-   ========================================================================== */
-
-.show-focus * {
-  animation: none !important;
-  transition: none !important;
-}
-
-/* Never let focused/hovered elements scale up ("explode") — the highlight
-   rules below provide the visual feedback instead. */
-.show-focus:focus,
-.show-focus:hover,
-.show-focus:focus *,
-.show-focus:hover * {
-  transform: none !important;
-}
-
-/* Cards: highlight border/background on focus or hover instead of growing. */
-.card.show-focus:not(.show-animation) .cardBox.visualCardBox,
-.card.show-focus:not(.show-animation)
-  .cardBox:not(.visualCardBox)
-  .cardScalable,
-.card.show-focus:not(.show-animation) .cardPadder {
-  background: transparent !important; /* "Behind" the border */
-  outline: var(--radius) solid transparent !important;
-}
-
-.card.show-focus:not(.show-animation):focus .cardBox.visualCardBox,
-.card.show-focus:not(.show-animation):focus
-  .cardBox:not(.visualCardBox)
-  .cardScalable,
-.card.show-focus:not(.show-animation):hover .cardBox.visualCardBox,
-.card.show-focus:not(.show-animation):hover
-  .cardBox:not(.visualCardBox)
-  .cardScalable {
-  background: var(--contrast) !important; /* "Behind" the border */
-  border-color: var(--contrast) !important;
-}
-
-/* Buttons: always use the focus accent for color — even icons/badges that
-   are marked another color (e.g. a filled favourite/played indicator). */
-button.show-focus:focus,
-button.show-focus:hover,
-button.show-focus:focus *,
-button.show-focus:hover *,
-.cardBox button.show-focus:focus,
-.cardBox button.show-focus:hover {
-  color: var(--focus) !important;
-}
-
-/* Everything else (not a card or button): reverse-highlight instead of
-   growing, on both focus and hover. */
-.show-focus:focus:not(.card):not(button),
-.show-focus:hover:not(.card):not(button) {
-  color: var(--background) !important;
-  background: var(--contrast) !important;
-  border-color: var(--contrast) !important;
-}
-
-/* Playback (OSD) controls: never a background or border, focused or not. */
-#videoOsdPage button,
-#videoOsdPage input,
-#videoOsdPage .show-focus:focus,
-#videoOsdPage .show-focus:hover {
-  background: transparent !important;
-  border: none !important;
-}
-
-.sliderBubble:not(.hide) {
-  color: var(--text) !important;
-  background: var(--transparent) !important;
-  border-radius: var(--radius) !important;
-}
-.sliderBubble:not(.hide) h1 {
-  font-size: 1.5rem !important;
-  padding: var(--offset) !important;
 }
