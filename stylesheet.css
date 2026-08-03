@@ -8,9 +8,9 @@
   --contrast: var(--text);
 
   --highlight: #088199;
-  --highlight-hover: color-mix(in srgb, var(--highlight) 60%, white);
+  --hover: color-mix(in srgb, var(--highlight) 60%, var(--text));
 
-  --border: 0.1rem;
+  --border: 0.1em;
   --radius: 0.5rem;
   --round: 10rem;
   --offset: 0.25rem;
@@ -107,6 +107,9 @@ button {
   background: var(--transparent) !important;
   color: var(--text) !important;
 }
+h1.parentName {
+  margin: var(--border) 0 0 !important;
+}
 
 .skinHeader {
   color: var(--text) !important;
@@ -163,11 +166,21 @@ button:not(.cardBox button):not(.skinHeader button):hover {
 button.show-focus:focus,
 button.show-focus:hover,
 button.show-focus:focus *,
-button.show-focus:hover *,
-.cardBox button.show-focus:focus,
-.cardBox button.show-focus:hover {
+button.show-focus:hover * {
+  color: var(--hover) !important;
+}
+
+.card.show-focus:focus,
+.card.show-focus:hover,
+.card.show-focus:focus *:not(.cardIndicators):not(.cardIndicators *),
+.card.show-focus:hover *:not(.cardIndicators):not(.cardIndicators *) {
   color: var(--focus) !important;
 }
+.card.show-focus:focus *:is(.cardIndicators, .cardIndicators *),
+.card.show-focus:hover *:is(.cardIndicators, .cardIndicators *) {
+  color: var(--text) !important; /* Played and number badges on cards. */
+}
+
 .show-focus:focus:not(.card):not(button),
 .show-focus:hover:not(.card):not(button) {
   color: var(--background) !important;
@@ -201,7 +214,7 @@ button.show-focus:focus .playstatebutton-icon-played,
 button.show-focus:hover .playstatebutton-icon-played,
 button.show-focus:focus .ratingbutton-icon-withrating,
 button.show-focus:hover .ratingbutton-icon-withrating {
-  color: var(--highlight-hover) !important;
+  color: var(--hover) !important;
 }
 
 /* ==========================================================================
@@ -247,12 +260,21 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 .mdl-slider-hoverthumb::-webkit-slider-thumb {
   background: var(--contrast) !important;
 }
+.mdl-slider-background-flex-container {
+  padding: 0 0.4rem !important;
+}
+
+.sliderMarker {
+  height: var(--offset) !important;
+  width: var(--offset) !important;
+  border-radius: var(--round) !important;
+}
 .sliderMarkerContainer .sliderMarker.watched {
   background-color: var(--contrast) !important;
 }
-.sliderMarkerContainer .sliderMarker.unwatched {
+/*.sliderMarkerContainer .sliderMarker.unwatched {
   background-color: var(--transparent) !important;
-}
+}*/
 
 .sliderBubble:not(.hide) {
   color: var(--text) !important;
@@ -279,8 +301,7 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 .playedIndicator {
   box-shadow: none !important;
 }
-.playedIndicator,
-.countIndicator {
+.cardIndicators {
   color: var(--text) !important;
 }
 
