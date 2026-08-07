@@ -110,6 +110,33 @@ body {
   backdrop-filter: blur(var(--radius)) !important;
 }
 
+.upNextContainer {
+  color: var(--focus) !important;
+  background: var(--transparent) !important;
+  -webkit-backdrop-filter: blur(var(--radius)) !important;
+  backdrop-filter: blur(var(--radius)) !important;
+
+  border: var(--border) solid var(--focus) !important;
+  border-radius: calc(2 * var(--radius)) !important;
+}
+.upNextContainer.upNextDialog h2 {
+  display: flex !important;
+  flex-direction: column !important; /* Force countdown on next line/below */
+  font-size: 1em !important;
+}
+.upNextContainer .upNextDialog-countdownText {
+  color: var(--text) !important;
+  font-size: 2em !important;
+}
+.upNextDialog-buttons {
+  margin-top: unset !important;
+  gap: 1em !important;
+}
+.upNextDialog-buttons button {
+  margin: unset !important;
+  padding: unset !important;
+}
+
 /* ==========================================================================
    Buttons
    ========================================================================== */
@@ -128,7 +155,8 @@ h1.parentName {
   color: var(--text) !important;
 }
 
-.skinHeader button {
+.skinHeader button,
+.subtitleSync button {
   background: transparent !important;
 }
 
@@ -139,6 +167,13 @@ h1.parentName {
 .playstatebutton-icon-played,
 .ratingbutton-icon-withrating {
   color: var(--highlight) !important;
+}
+.dialogContentInner .listItemIcon {
+  background: var(--focus) !important;
+  margin: unset !important;
+}
+.subtitleFeaturePillow {
+  background: var(--highlight) !important;
 }
 
 .cardBox button:not(.actionSheetMenuItem) {
@@ -194,8 +229,8 @@ button.show-focus:hover * {
   color: var(--text) !important; /* Played and number badges on cards. */
 }
 
-.show-focus:focus:not(.card):not(button),
-.show-focus:hover:not(.card):not(button) {
+.show-focus:focus:not(.card):not(button):not(.subtitleSync *),
+.show-focus:hover:not(.card):not(button):not(.subtitleSync *) {
   color: var(--background) !important;
   background: var(--contrast) !important;
   border-color: var(--contrast) !important;
@@ -245,6 +280,14 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   padding-left: var(--radius) !important;
 }
 
+.inputContainer input {
+  border: var(--border) solid transparent; /* Prevent effect on focus. */
+}
+.inputContainer input:focus,
+.inputContainer input:hover {
+  border: var(--border) solid var(--text);
+}
+
 .selectLabel,
 .label {
   font-weight: bold !important;
@@ -269,12 +312,17 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 .mdl-slider-background-lower {
   background: var(--contrast) !important;
 }
-.mdl-slider-hoverthumb,
+.mdl-slider-hoverthumb:not(.subtitleSync *),
 .mdl-slider-hoverthumb::-webkit-slider-thumb {
   background: var(--contrast) !important;
 }
 .mdl-slider-background-flex-container {
   padding: 0 0.4rem !important;
+}
+
+.subtitleSync .mdl-slider:focus,
+.subtitleSync .mdl-slider:hover {
+  background: transparent !important;
 }
 
 .sliderMarker {
@@ -361,12 +409,18 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   border-radius: var(--radius) !important;
   box-shadow: unset !important;
 }
-.actionSheetScroller {
+.actionSheetScroller,
+.dialogContentInner,
+.subtitleSyncContainer {
   color: var(--text) !important;
   background: var(--background) !important;
 
   border: var(--border) solid var(--contrast) !important;
   border-radius: var(--radius) !important;
+}
+.formDialogHeader {
+  background: var(--background) !important;
+  border-bottom: var(--border) solid var(--contrast) !important;
 }
 
 /* TV-only: action sheet rows use the same reverse-highlight as other
