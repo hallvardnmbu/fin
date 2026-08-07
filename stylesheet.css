@@ -16,12 +16,25 @@
   --offset: 0.25rem;
 }
 
+@font-face {
+  font-family: "Bricolage Grotesque";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/style/fonts/bricolage-grotesque/BricolageGrotesque-VariableFont_opsz,wdth,wght.ttf")
+    format("truetype");
+}
+
 /* ==========================================================================
    Base
    ========================================================================== */
 
 html,
 body {
+  font-family: "Bricolage Grotesque", monospace, sans-serif !important;
+  font-optical-sizing: auto;
+  font-style: normal;
+
   color: var(--text) !important;
   background: var(--background) !important;
   background-color: var(--background) !important;
