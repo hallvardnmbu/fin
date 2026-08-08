@@ -210,6 +210,7 @@ button:not(.cardBox button):not(.skinHeader button):hover {
 
 /* -- TV equivalents for hover/focus ------------------------------- */
 
+/* TODO: Handle the modals (actionSheetScroller) */
 button.show-focus:focus,
 button.show-focus:hover,
 button.show-focus:focus *,
@@ -269,8 +270,12 @@ button.show-focus:hover .ratingbutton-icon-withrating {
    ========================================================================== */
 
 .checkboxOutline {
+  background: transparent !important;
   border-radius: var(--radius) !important;
   border: var(--border) solid var(--contrast) !important;
+}
+.checkboxOutline .checkboxIcon-checked::before {
+  background: transparent !important;
 }
 
 .selectContainer select,
@@ -453,20 +458,23 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   border-bottom: var(--border) solid var(--contrast) !important;
 }
 
-/* TV-only: action sheet rows use the same reverse-highlight as other
-   remote-focused rows (see the generic show-focus rule above), but need
-   square corners and the button + its label to swap color together. */
+/* Modal menu items. */
 .actionSheetScroller button.show-focus {
   border-radius: 0 !important;
 }
 .actionSheetScroller button.show-focus:focus,
 .actionSheetScroller button.show-focus:hover {
+  color: var(--background) !important;
   background: var(--contrast) !important;
 }
+
+/*
+See TODO above.
 .actionSheetScroller button.show-focus:focus .actionSheetItemText,
 .actionSheetScroller button.show-focus:hover .actionSheetItemText {
   color: var(--background) !important;
 }
+*/
 
 /* TODO: fix .actionSheet on mobile */
 
@@ -475,3 +483,5 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   margin: var(--border) !important;
   background: unset !important;
 }
+
+/* TODO: Fix modal styling generally. */
