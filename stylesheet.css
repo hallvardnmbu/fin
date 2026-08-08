@@ -14,6 +14,10 @@
   --radius: 0.5rem;
   --round: 10rem;
   --offset: 0.25rem;
+
+  --card-focus-outline: 0.2rem;
+
+  --seen-card-blurred: 0; /* Seen cards background: `0` non-blurred; `1` blurred. */
 }
 
 @font-face {
@@ -37,7 +41,6 @@ body {
 
   color: var(--text) !important;
   background: var(--background) !important;
-  background-color: var(--background) !important;
   color-scheme: dark;
 }
 
@@ -102,12 +105,12 @@ body {
 .mainDrawer,
 .listItem:hover:not(.actionSheetMenuItem),
 .cardBox button:not(.actionSheetMenuItem),
-.playedIndicator,
-.countIndicator,
+.cardIndicators .indicator,
 .sliderBubble:not(.hide) {
-  background: var(--transparent) !important;
+  background: transparent !important;
   -webkit-backdrop-filter: blur(var(--radius)) !important;
   backdrop-filter: blur(var(--radius)) !important;
+  border-radius: var(--radius) !important;
 }
 
 .upNextContainer {
@@ -174,10 +177,6 @@ h1.parentName {
 }
 .subtitleFeaturePillow {
   background: var(--highlight) !important;
-}
-
-.cardBox button:not(.actionSheetMenuItem) {
-  border-radius: var(--radius) !important;
 }
 
 .emby-scrollbuttons-button,
@@ -285,7 +284,7 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 }
 .inputContainer input:focus,
 .inputContainer input:hover {
-  border: var(--border) solid var(--text);
+  border: var(--border) solid var(--contrast);
 }
 
 .selectLabel,
@@ -333,13 +332,9 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 .sliderMarkerContainer .sliderMarker.watched {
   background-color: var(--contrast) !important;
 }
-/*.sliderMarkerContainer .sliderMarker.unwatched {
-  background-color: var(--transparent) !important;
-}*/
 
 .sliderBubble:not(.hide) {
   color: var(--text) !important;
-  border-radius: var(--radius) !important;
 }
 .sliderBubble:not(.hide) h1 {
   font-size: 1.5rem !important;
@@ -362,10 +357,31 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 .playedIndicator {
   box-shadow: none !important;
 }
-.cardIndicators {
-  color: var(--text) !important;
+
+.cardIndicators .indicator {
+  border-radius: var(--round) !important;
 }
 
+/* Make "seen" cards blurred. */
+@container style(--seen-card-blurred: 1) {
+  .cardIndicators:has(.playedIndicator.indicator) {
+    right: unset !important;
+    top: unset !important;
+    height: 100% !important;
+    width: 100% !important;
+    -webkit-backdrop-filter: blur(var(--border)) !important;
+    backdrop-filter: blur(var(--border)) !important;
+  }
+  .playedIndicator.indicator {
+    height: 100% !important;
+    width: 100% !important;
+  }
+  .playedIndicator.indicator > * {
+    position: absolute !important;
+    top: 0.225em !important;
+    right: 0.225em !important;
+  }
+}
 /* Progress bar on cards */
 .innerCardFooter {
   margin: 0.5em !important;
@@ -380,22 +396,36 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   border-radius: var(--round) !important;
 }
 
-/* TV-only: card focus/hover outline. Cards get an outline + fill instead
-   of the button treatment above, since a whole card (not just an icon)
-   needs to read as selected from across the room. */
-.card.show-focus:not(.show-animation) .cardBox.visualCardBox,
-.card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable,
-.card.show-focus:not(.show-animation) .cardPadder {
-  background: transparent !important; /* "behind" the border */
-  outline: var(--radius) solid transparent !important;
-}
+/* ==========================================================================
+   Card focus/hover
+   ========================================================================== */
 
-.card.show-focus:not(.show-animation):focus .cardBox.visualCardBox,
+/* Pad to allow outline. */
+.cardBox {
+  /* Outline width + outline offset. */
+  margin: calc(2 * var(--card-focus-outline)) !important;
+}
+/* Ensure all card with content has the same radius. */
+.cardImageContainer,
+.cardPadder,
+.cardBox canvas {
+  border-radius: var(--radius) !important;
+}
+/* Reserve space for focus outline. */
+.cardScalable {
+  /* Prevent title from being too close to the outline. */
+  margin-bottom: var(--card-focus-outline) !important;
+
+  border: unset !important;
+  border-radius: var(--radius) !important;
+
+  outline-offset: var(--card-focus-outline) !important;
+  outline: var(--card-focus-outline) solid transparent !important;
+}
+/* Show the outline on focus. */
 .card.show-focus:not(.show-animation):focus .cardBox:not(.visualCardBox) .cardScalable,
-.card.show-focus:not(.show-animation):hover .cardBox.visualCardBox,
 .card.show-focus:not(.show-animation):hover .cardBox:not(.visualCardBox) .cardScalable {
-  background: var(--contrast) !important; /* "behind" the border */
-  border-color: var(--contrast) !important;
+  outline-color: var(--contrast) !important;
 }
 
 /* ==========================================================================
