@@ -475,46 +475,32 @@ button.show-focus:hover .ratingbutton-icon-withrating {
    Modals
    ========================================================================== */
 
-/* Page overlay; full page. */
 .dialogBackdrop {
   background: var(--transparent) !important;
 }
-/* Full page on TV, around modal on web and mobile. */
+
 .dialog {
   background: transparent !important;
-  box-shadow: unset !important;
+  box-shadow: none !important;
 }
 
-/* The actual modal. */
+/* Modal surfaces. */
 .actionSheetScroller,
 .dialogContentInner,
-.subtitleSyncContainer {
+.subtitleSyncContainer,
+.dialog.formDialog {
+  box-sizing: border-box !important;
   color: var(--text) !important;
   background: var(--background) !important;
-
-  border-radius: var(--radius) !important;
   border: var(--border) solid var(--contrast) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: none !important;
 }
 
-/* Full-screen modals. (E.g., edit metadata.) */
-.formDialogHeader {
+.dialogContentInner {
   background: var(--background) !important;
-  border-bottom: var(--border) solid var(--contrast) !important;
-}
-.formDialogContent {
-  display: flex;
-  flex-direction: column;
-  padding: 2em 2em 5em 2em !important;
-}
-/*.dialogContentInner {
-  margin: 0.5em 1em 5em 1em !important;
-}*/
-.formDialogHeader,
-.formDialogFooter {
-  height: 5em !important;
 }
 
-/* Base structure for both dialog sizes */
 .dialog.formDialog {
   display: flex;
   flex-direction: column;
@@ -522,75 +508,110 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   padding: 0 !important;
 }
 
-/* Desktop: fixed, centered, boxed */
+/* Normal dialogs. */
 .dialog.formDialog.dialog-fixedSize {
-  width: min(90vw, 640px);
-  height: min(85vh, 900px);
-  border-radius: 12px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  width: min(90vw, 640px) !important;
+  height: min(85vh, 900px) !important;
+  max-width: 90vw !important;
+  max-height: 85vh !important;
 }
 
-/* Mobile: true fullscreen, no radius/shadow needed */
-@media (max-width: 800px) {
-  .dialog.formDialog.dialog-fullscreen {
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh; /* handles mobile browser chrome */
-    border-radius: 0;
-  }
+/* Fullscreen dialogs: the outer dialog is the fixed modal surface. */
+.dialog.formDialog.dialog-fullscreen {
+  position: fixed !important;
+  inset: var(--offset) !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: none !important;
+  max-height: none !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: var(--border) solid var(--contrast) !important;
+  border-radius: var(--radius) !important;
 }
 
-/* Sticky header: flex-shrink so it never collapses */
-.formDialog .formDialogHeader {
-  flex: 0 0 auto;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: inherit;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+/* Header is outside the scrolling region. */
+.formDialogHeader {
+  box-sizing: border-box !important;
+  flex: 0 0 auto !important;
+  position: relative;
+  z-index: 1;
+  margin: var(--offset) var(--offset) 0 !important;
+  border: var(--border) solid var(--contrast) !important;
+  border-radius: var(--radius) !important;
+  background: var(--background) !important;
 }
 
-/* The only scrolling region */
-.formDialog .formDialogContent {
-  flex: 1 1 auto;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 1.5em !important;
+/* The content wrapper is the only scrolling layer. */
+.dialog.formDialog.dialog-fullscreen .formDialogContent {
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  overflow: auto !important;
+  padding: 0 !important;
   -webkit-overflow-scrolling: touch;
 }
 
-/* Footer sticks to the bottom of the scroll container it lives in */
-.formDialog .formDialogFooter {
-  position: sticky;
-  bottom: 0;
-  z-index: 10;
-  display: flex;
-  gap: 8px;
-  margin-top: 2em;
-  padding: 1em 0;
-  background: inherit;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+/* Jellyfin puts the actual metadata form inside formDialogContent.
+   Its default 20em bottom padding and dialog border are for the old
+   overflowing layout, so remove both for fullscreen dialogs. */
+.dialog.formDialog.dialog-fullscreen .formDialogContent > .dialogContentInner {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 auto !important;
+  padding: 1.5em !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: var(--background) !important;
 }
 
-/* Optional: tighten up the long lists so they don't dominate the scroll */
-.formDialog .paperList {
+/* Some fullscreen forms put the footer inside the scrolling form.
+   Keep that footer visible without making it part of the modal height. */
+.dialog.formDialog.dialog-fullscreen .formDialogContent .formDialogFooter {
+  box-sizing: border-box !important;
+  position: sticky !important;
+  bottom: 0 !important;
+  z-index: 1;
+  display: flex;
+  gap: var(--offset);
+  width: 100%;
+  margin: 1em 0 0 !important;
+  padding: 0.5em !important;
+  border: var(--border) solid var(--contrast) !important;
+  border-radius: var(--radius) !important;
+  background: var(--background) !important;
+}
+
+/* A footer outside formDialogContent, when present, remains fixed below it. */
+.dialog.formDialog.dialog-fullscreen > .formDialogFooter {
+  box-sizing: border-box !important;
+  flex: 0 0 auto !important;
+  margin: 0 var(--offset) var(--offset) !important;
+  padding: 0.5em !important;
+  border: var(--border) solid var(--contrast) !important;
+  border-radius: var(--radius) !important;
+  background: var(--background) !important;
+}
+
+.paperList {
   max-height: 260px;
   overflow-y: auto;
-  border-radius: 6px;
+  border-radius: var(--radius);
 }
 
-/* Modal menu items. */
-.actionSheetScroller button.show-focus {
-  border-radius: 0 !important;
-}
+/* Action sheet menu items. */
 .actionSheetScroller button.show-focus:focus,
 .actionSheetScroller button.show-focus:hover {
   color: var(--background) !important;
   background: var(--contrast) !important;
 }
-
 .actionsheetDivider {
   height: calc(var(--border) / 2) !important;
-  margin: unset !important;
   background: var(--text) !important;
+  margin: unset !important;
 }
