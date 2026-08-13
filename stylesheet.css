@@ -15,6 +15,8 @@
   --round: 10rem;
   --offset: 0.25rem;
 
+  --playback-slider-track: 1rem;
+
   --card-focus-outline: 0.2rem;
 
   --seen-card-blurred: 0; /* Seen cards background: `0` non-blurred; `1` blurred. */
@@ -28,10 +30,6 @@
   src: url("/style/fonts/bricolage-grotesque/BricolageGrotesque-VariableFont_opsz,wdth,wght.ttf")
     format("truetype");
 }
-
-/* ==========================================================================
-   Base
-   ========================================================================== */
 
 html,
 body {
@@ -48,39 +46,30 @@ body {
   display: none !important;
 }
 
+/* Disable animations. */
+.show-focus,
+.itemAction,
+.emby-select-focusscale {
+  transition: none !important;
+
+  transform: none !important;
+  -webkit-transform: none !important;
+
+  animation: none !important;
+  -webkit-animation: none !important;
+}
+
+/* Loading spinner. */
 .mdl-spinner__layer-1 .mdl-spinner__circle-clipper .mdl-spinner__circle,
 .mdl-spinner__layer-2 .mdl-spinner__circle-clipper .mdl-spinner__circle,
 .mdl-spinner__layer-3 .mdl-spinner__circle-clipper .mdl-spinner__circle,
 .mdl-spinner__layer-4 .mdl-spinner__circle-clipper .mdl-spinner__circle {
   border-color: var(--contrast);
-}
-
-/* Disable transitions/animations on anything that shouldn't visibly
-   fade/flicker (lazy-loaded images, blurhash placeholders, focus states). */
-.itemAction,
-.lazy,
-.blurhashed,
-.lazy-image-fadein-fast,
-.show-focus * {
-  transition: none !important;
-  -webkit-animation: none !important;
-  animation: none !important;
-}
-
-/* TV focus: never "explode". */
-.show-focus:focus,
-.show-focus:hover,
-.show-focus:focus *,
-.show-focus:hover *,
-.emby-select:focus,
-.emby-select:hover,
-.emby-select:focus *,
-.emby-select:hover * {
-  transform: none !important;
+  border-width: var(--radius);
 }
 
 /* ==========================================================================
-   Backgrounds (pages, panels, dialogs)
+   Backgrounds
    ========================================================================== */
 
 .backgroundContainer {
@@ -93,13 +82,13 @@ body {
   background: transparent !important;
 }
 
-.inputContainer input,
-.selectContainer select,
-.inputContainer textarea {
+input,
+select,
+textarea {
   background: var(--faint) !important;
 }
 
-/* "Frosted glass" panels: transparent + blurred backdrop.  */
+/* Frosted glass panels. */
 .skinHeader,
 .skinHeader.semiTransparent,
 .mainDrawer,
@@ -112,7 +101,6 @@ body {
   backdrop-filter: blur(var(--radius)) !important;
   border-radius: var(--radius) !important;
 }
-
 .upNextContainer {
   color: var(--focus) !important;
   background: var(--transparent) !important;
@@ -121,23 +109,6 @@ body {
 
   border: var(--border) solid var(--focus) !important;
   border-radius: calc(2 * var(--radius)) !important;
-}
-.upNextContainer.upNextDialog h2 {
-  display: flex !important;
-  flex-direction: column !important; /* Force countdown on next line/below */
-  font-size: 1em !important;
-}
-.upNextContainer .upNextDialog-countdownText {
-  color: var(--text) !important;
-  font-size: 2em !important;
-}
-.upNextDialog-buttons {
-  margin-top: unset !important;
-  gap: 1em !important;
-}
-.upNextDialog-buttons button {
-  margin: unset !important;
-  padding: unset !important;
 }
 
 /* ==========================================================================
@@ -159,7 +130,8 @@ h1.parentName {
 }
 
 .skinHeader button,
-.subtitleSync button {
+.subtitleSync button,
+.cardOverlayButtonIcon {
   background: transparent !important;
 }
 
@@ -184,22 +156,20 @@ h1.parentName {
 .actionSheetContent {
   padding: var(--offset) !important;
 }
+.cardOverlayButton {
+  margin: var(--offset);
+}
 
 .cardOverlayFab-primary:hover {
   -webkit-transform: none !important;
   transform: none !important;
 }
 
-/* -- hover / focused states (color accents) -------------------------------
-   Mouse hover and TV-remote focus share the same accent color, so both
-   are handled together per element type below. */
-
 .button-link,
 .selectLabelFocused,
 .skinHeader button:hover,
 .emby-tab-button-active,
 .emby-button:hover,
-.cardBox button:hover,
 button:not(.cardBox button):not(.skinHeader button):hover {
   color: var(--focus) !important;
 }
@@ -208,13 +178,12 @@ button:not(.cardBox button):not(.skinHeader button):hover {
   background: transparent !important;
 }
 
-/* -- TV equivalents for hover/focus ------------------------------- */
+/* TV focus uses the show-focus class. */
 
-/* TODO: Handle the modals (actionSheetScroller) */
 button.show-focus:focus,
 button.show-focus:hover,
-button.show-focus:focus *,
-button.show-focus:hover * {
+button.show-focus:focus span,
+button.show-focus:hover span {
   color: var(--hover) !important;
 }
 
@@ -236,15 +205,7 @@ button.show-focus:hover * {
   border-color: var(--contrast) !important;
 }
 
-.checkboxIcon::before {
-  background: var(--focus) !important;
-}
-
-.emby-select-withcolor:focus {
-  border-color: var(--focus) !important;
-}
-
-/* Playback (OSD) control. */
+/* Playback control. */
 #videoOsdPage button,
 #videoOsdPage input,
 #videoOsdPage .show-focus:focus,
@@ -253,7 +214,7 @@ button.show-focus:hover * {
   border: none !important;
 }
 
-/* Played/rating hover. */
+/* Played and favourite hover when "checked". */
 .playstatebutton-icon-played:hover,
 .ratingbutton-icon-withrating:hover,
 button:hover .playstatebutton-icon-played,
@@ -262,11 +223,11 @@ button.show-focus:focus .playstatebutton-icon-played,
 button.show-focus:hover .playstatebutton-icon-played,
 button.show-focus:focus .ratingbutton-icon-withrating,
 button.show-focus:hover .ratingbutton-icon-withrating {
-  color: var(--hover) !important;
+  color: var(--focus) !important;
 }
 
 /* ==========================================================================
-   Forms & inputs
+   Inputs
    ========================================================================== */
 
 .checkboxOutline {
@@ -276,6 +237,9 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 }
 .checkboxOutline .checkboxIcon-checked::before {
   background: transparent !important;
+}
+.checkboxIcon::before {
+  background: var(--focus) !important;
 }
 
 .selectContainer select,
@@ -302,52 +266,131 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   color: var(--text) !important;
 }
 
+.emby-select-withcolor:focus {
+  border-color: var(--focus) !important;
+}
+
 /* ==========================================================================
-   Sliders
+   Playback
    ========================================================================== */
 
+/* Position the playing track below the timestamps. */
+.osdControls .flex {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  grid-template-rows: 1fr auto !important;
+}
+.osdControls .flex .osdTextContainer.startTimeText {
+  grid-column: 1 !important;
+  justify-content: left !important;
+  padding: 0 0 0.5em 0.5em !important;
+}
+.osdControls .flex .osdTextContainer.endTimeText {
+  grid-column: 2 !important;
+  justify-content: right !important;
+  padding: 0 0.5em 0.5em 0 !important;
+}
+.osdControls .flex .sliderContainer {
+  grid-column: 1 / -1 !important;
+  grid-row: 2 !important;
+}
+
+.sliderContainer {
+  align-items: center !important;
+}
+.sliderContainer input {
+  background: transparent !important;
+}
+
+/* Slider track. */
+.mdl-slider-background-flex-container {
+  padding: 0 0.4rem !important; /* Ensures chapters at 0:00 is centered. */
+  height: var(--playback-slider-track) !important;
+  top: unset !important;
+}
 .mdl-slider-background-flex {
-  height: var(--offset) !important;
-  border-radius: var(--border) !important;
+  height: var(--playback-slider-track) !important;
+  margin: unset !important;
+  border-radius: var(--playback-slider-track) !important;
 }
 .mdl-slider-background-flex-inner {
   background: var(--transparent) !important;
 }
+.mdl-slider-background-upper {
+  border-top-right-radius: var(--playback-slider-track) !important;
+  border-bottom-right-radius: var(--playback-slider-track) !important;
+}
 .mdl-slider-background-lower {
   background: var(--contrast) !important;
-}
-.mdl-slider-hoverthumb:not(.subtitleSync *),
-.mdl-slider-hoverthumb::-webkit-slider-thumb {
-  background: var(--contrast) !important;
-}
-.mdl-slider-background-flex-container {
-  padding: 0 0.4rem !important;
+  border-radius: var(--round) !important;
 }
 
-.subtitleSync .mdl-slider:focus,
-.subtitleSync .mdl-slider:hover {
+/* Slider thumb. */
+.mdl-slider-hoverthumb::-webkit-slider-thumb {
+  height: var(--radius) !important;
+  width: var(--radius) !important;
   background: transparent !important;
 }
+.mdl-slider-hoverthumb::-moz-range-thumb {
+  height: var(--radius) !important;
+  width: var(--radius) !important;
+  background: transparent !important;
+}
+.mdl-slider-hoverthumb:hover::-webkit-slider-thumb,
+.mdl-slider-hoverthumb:focus::-webkit-slider-thumb {
+  transition: unset !important;
+  background: var(--hover) !important;
+}
+.mdl-slider-hoverthumb:hover::-moz-range-thumb,
+.mdl-slider-hoverthumb:focus::-moz-range-thumb {
+  transition: unset !important;
+  background: var(--hover) !important;
+}
 
+/* Chapters. */
+.sliderMarkerContainer {
+  height: calc(2 * var(--playback-slider-track)) !important;
+}
 .sliderMarker {
   height: var(--offset) !important;
   width: var(--offset) !important;
   border-radius: var(--round) !important;
 }
-.sliderMarkerContainer .sliderMarker.watched {
+.sliderMarker.watched {
   background-color: var(--contrast) !important;
 }
 
-.sliderBubble:not(.hide) {
+/* Hover text when sliding. */
+.sliderBubble {
   color: var(--text) !important;
 }
-.sliderBubble:not(.hide) h1 {
+.sliderBubbleText h1 {
   font-size: 1.5rem !important;
   padding: var(--offset) !important;
+  margin-bottom: var(--radius) !important;
+}
+
+/* Next episode (already frosted). */
+.upNextContainer.upNextDialog h2 {
+  display: flex !important;
+  flex-direction: column !important; /* Force countdown on next line/below */
+  font-size: 1em !important;
+}
+.upNextContainer .upNextDialog-countdownText {
+  color: var(--text) !important;
+  font-size: 2em !important;
+}
+.upNextDialog-buttons {
+  margin-top: unset !important;
+  gap: 1em !important;
+}
+.upNextDialog-buttons button {
+  margin: unset !important;
+  padding: unset !important;
 }
 
 /* ==========================================================================
-   Cards, indicators & progress bars
+   Cards
    ========================================================================== */
 
 .cardContent {
@@ -367,7 +410,7 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   border-radius: var(--round) !important;
 }
 
-/* Make "seen" cards blurred. */
+/* Make "seen" cards blurred if specified. */
 @container style(--seen-card-blurred: 1) {
   .cardIndicators:has(.playedIndicator.indicator) {
     right: unset !important;
@@ -401,24 +444,19 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   border-radius: var(--round) !important;
 }
 
-/* ==========================================================================
-   Card focus/hover
-   ========================================================================== */
-
-/* Pad to allow outline. */
+/* Card focus outline (TV) */
 .cardBox {
-  /* Outline width + outline offset. */
+  /* Pad to allow outline; outline width + outline offset. */
   margin: calc(2 * var(--card-focus-outline)) !important;
 }
-/* Ensure all card with content has the same radius. */
 .cardImageContainer,
 .cardPadder,
 .cardBox canvas {
+  /* Ensure all card with content has the same radius. */
   border-radius: var(--radius) !important;
 }
-/* Reserve space for focus outline. */
 .cardScalable {
-  /* Prevent title from being too close to the outline. */
+  /* Reserve space for focus outline; prevent title from being too close to the outline. */
   margin-bottom: var(--card-focus-outline) !important;
 
   border: unset !important;
@@ -427,35 +465,118 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   outline-offset: var(--card-focus-outline) !important;
   outline: var(--card-focus-outline) solid transparent !important;
 }
-/* Show the outline on focus. */
 .card.show-focus:not(.show-animation):focus .cardBox:not(.visualCardBox) .cardScalable,
 .card.show-focus:not(.show-animation):hover .cardBox:not(.visualCardBox) .cardScalable {
+  /* Show the outline on focus. */
   outline-color: var(--contrast) !important;
 }
 
 /* ==========================================================================
-   Action sheets / dialogs (misc)
+   Modals
    ========================================================================== */
 
+/* Page overlay; full page. */
+.dialogBackdrop {
+  background: var(--transparent) !important;
+}
+/* Full page on TV, around modal on web and mobile. */
 .dialog {
   background: transparent !important;
-  opacity: 1 !important;
-
-  border-radius: var(--radius) !important;
   box-shadow: unset !important;
 }
+
+/* The actual modal. */
 .actionSheetScroller,
 .dialogContentInner,
 .subtitleSyncContainer {
   color: var(--text) !important;
   background: var(--background) !important;
 
-  border: var(--border) solid var(--contrast) !important;
   border-radius: var(--radius) !important;
+  border: var(--border) solid var(--contrast) !important;
 }
+
+/* Full-screen modals. (E.g., edit metadata.) */
 .formDialogHeader {
   background: var(--background) !important;
   border-bottom: var(--border) solid var(--contrast) !important;
+}
+.formDialogContent {
+  display: flex;
+  flex-direction: column;
+  padding: 2em 2em 5em 2em !important;
+}
+/*.dialogContentInner {
+  margin: 0.5em 1em 5em 1em !important;
+}*/
+.formDialogHeader,
+.formDialogFooter {
+  height: 5em !important;
+}
+
+/* Base structure for both dialog sizes */
+.dialog.formDialog {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0 !important;
+}
+
+/* Desktop: fixed, centered, boxed */
+.dialog.formDialog.dialog-fixedSize {
+  width: min(90vw, 640px);
+  height: min(85vh, 900px);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Mobile: true fullscreen, no radius/shadow needed */
+@media (max-width: 800px) {
+  .dialog.formDialog.dialog-fullscreen {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh; /* handles mobile browser chrome */
+    border-radius: 0;
+  }
+}
+
+/* Sticky header: flex-shrink so it never collapses */
+.formDialog .formDialogHeader {
+  flex: 0 0 auto;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: inherit;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* The only scrolling region */
+.formDialog .formDialogContent {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1.5em !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Footer sticks to the bottom of the scroll container it lives in */
+.formDialog .formDialogFooter {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+  margin-top: 2em;
+  padding: 1em 0;
+  background: inherit;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Optional: tighten up the long lists so they don't dominate the scroll */
+.formDialog .paperList {
+  max-height: 260px;
+  overflow-y: auto;
+  border-radius: 6px;
 }
 
 /* Modal menu items. */
@@ -468,20 +589,8 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   background: var(--contrast) !important;
 }
 
-/*
-See TODO above.
-.actionSheetScroller button.show-focus:focus .actionSheetItemText,
-.actionSheetScroller button.show-focus:hover .actionSheetItemText {
-  color: var(--background) !important;
-}
-*/
-
-/* TODO: fix .actionSheet on mobile */
-
 .actionsheetDivider {
-  height: unset !important;
-  margin: var(--border) !important;
-  background: unset !important;
+  height: calc(var(--border) / 2) !important;
+  margin: unset !important;
+  background: var(--text) !important;
 }
-
-/* TODO: Fix modal styling generally. */
