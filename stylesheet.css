@@ -15,7 +15,7 @@
   --round: 10rem;
   --offset: 0.25rem;
 
-  --playback-slider-track: 1rem;
+  --spacing: 1rem;
 
   --card-focus-outline: 0.2rem;
 
@@ -235,10 +235,12 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   border-radius: var(--radius) !important;
   border: var(--border) solid var(--contrast) !important;
 }
-.checkboxOutline .checkboxIcon-checked::before {
+.checkboxOutline .checkboxIcon::before {
   background: transparent !important;
 }
-.checkboxIcon::before {
+
+.emby-checkbox:hover ~ .checkboxOutline,
+.emby-checkbox:focus ~ .checkboxOutline {
   background: var(--focus) !important;
 }
 
@@ -266,7 +268,8 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   color: var(--text) !important;
 }
 
-.emby-select-withcolor:focus {
+.emby-select-withcolor:focus,
+.emby-textarea:focus {
   border-color: var(--focus) !important;
 }
 
@@ -305,20 +308,20 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 /* Slider track. */
 .mdl-slider-background-flex-container {
   padding: 0 0.4rem !important; /* Ensures chapters at 0:00 is centered. */
-  height: var(--playback-slider-track) !important;
+  height: var(--spacing) !important;
   top: unset !important;
 }
 .mdl-slider-background-flex {
-  height: var(--playback-slider-track) !important;
+  height: var(--spacing) !important;
   margin: unset !important;
-  border-radius: var(--playback-slider-track) !important;
+  border-radius: var(--spacing) !important;
 }
 .mdl-slider-background-flex-inner {
   background: var(--transparent) !important;
 }
 .mdl-slider-background-upper {
-  border-top-right-radius: var(--playback-slider-track) !important;
-  border-bottom-right-radius: var(--playback-slider-track) !important;
+  border-top-right-radius: var(--spacing) !important;
+  border-bottom-right-radius: var(--spacing) !important;
 }
 .mdl-slider-background-lower {
   background: var(--contrast) !important;
@@ -349,7 +352,7 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 
 /* Chapters. */
 .sliderMarkerContainer {
-  height: calc(2 * var(--playback-slider-track)) !important;
+  height: calc(2 * var(--spacing)) !important;
 }
 .sliderMarker {
   height: var(--offset) !important;
@@ -475,143 +478,80 @@ button.show-focus:hover .ratingbutton-icon-withrating {
    Modals
    ========================================================================== */
 
-.dialogBackdrop {
-  background: var(--transparent) !important;
-}
-
+/* Behind the modals. */
+.dialogBackdrop,
 .dialog {
-  background: transparent !important;
   box-shadow: none !important;
+  background: transparent !important;
 }
-
-/* Modal surfaces. */
+/* The actual container for modals. */
+.dialogContainer {
+  background: var(--transparent) !important;
+  -webkit-backdrop-filter: blur(var(--radius)) !important;
+  backdrop-filter: blur(var(--radius)) !important;
+}
 .actionSheetScroller,
 .dialogContentInner,
-.subtitleSyncContainer,
-.dialog.formDialog {
+.subtitleSyncContainer {
   box-sizing: border-box !important;
-  color: var(--text) !important;
   background: var(--background) !important;
-  border: var(--border) solid var(--contrast) !important;
+  border: var(--border) solid var(--text) !important;
   border-radius: var(--radius) !important;
   box-shadow: none !important;
 }
 
-.dialogContentInner {
-  background: var(--background) !important;
-}
-
-.dialog.formDialog {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  padding: 0 !important;
-}
-
-/* Normal dialogs. */
-.dialog.formDialog.dialog-fixedSize {
-  width: min(90vw, 640px) !important;
-  height: min(85vh, 900px) !important;
-  max-width: 90vw !important;
-  max-height: 85vh !important;
-}
-
-/* Fullscreen dialogs: the outer dialog is the fixed modal surface. */
-.dialog.formDialog.dialog-fullscreen {
-  position: fixed !important;
-  inset: var(--offset) !important;
-  width: auto !important;
-  height: auto !important;
-  max-width: none !important;
-  max-height: none !important;
-  min-width: 0 !important;
-  min-height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  border: var(--border) solid var(--contrast) !important;
-  border-radius: var(--radius) !important;
-}
-
-/* Header is outside the scrolling region. */
-.formDialogHeader {
-  box-sizing: border-box !important;
-  flex: 0 0 auto !important;
-  position: relative;
-  z-index: 1;
-  margin: var(--offset) var(--offset) 0 !important;
-  border: var(--border) solid var(--contrast) !important;
-  border-radius: var(--radius) !important;
-  background: var(--background) !important;
-}
-
-/* The content wrapper is the only scrolling layer. */
-.dialog.formDialog.dialog-fullscreen .formDialogContent {
-  flex: 1 1 0 !important;
-  min-width: 0 !important;
-  min-height: 0 !important;
-  overflow: auto !important;
-  padding: 0 !important;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Jellyfin puts the actual metadata form inside formDialogContent.
-   Its default 20em bottom padding and dialog border are for the old
-   overflowing layout, so remove both for fullscreen dialogs. */
-.dialog.formDialog.dialog-fullscreen .formDialogContent > .dialogContentInner {
-  box-sizing: border-box !important;
-  width: 100% !important;
-  min-width: 0 !important;
-  min-height: 0 !important;
-  margin: 0 auto !important;
-  padding: 1.5em !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: var(--background) !important;
-}
-
-/* Some fullscreen forms put the footer inside the scrolling form.
-   Keep that footer visible without making it part of the modal height. */
-.dialog.formDialog.dialog-fullscreen .formDialogContent .formDialogFooter {
-  box-sizing: border-box !important;
-  position: sticky !important;
-  bottom: 0 !important;
-  z-index: 1;
-  display: flex;
-  gap: var(--offset);
-  width: 100%;
-  margin: 1em 0 0 !important;
-  padding: 0.5em !important;
-  border: var(--border) solid var(--contrast) !important;
-  border-radius: var(--radius) !important;
-  background: var(--background) !important;
-}
-
-/* A footer outside formDialogContent, when present, remains fixed below it. */
-.dialog.formDialog.dialog-fullscreen > .formDialogFooter {
-  box-sizing: border-box !important;
-  flex: 0 0 auto !important;
-  margin: 0 var(--offset) var(--offset) !important;
-  padding: 0.5em !important;
-  border: var(--border) solid var(--contrast) !important;
-  border-radius: var(--radius) !important;
-  background: var(--background) !important;
-}
-
-.paperList {
-  max-height: 260px;
-  overflow-y: auto;
-  border-radius: var(--radius);
-}
-
-/* Action sheet menu items. */
-.actionSheetScroller button.show-focus:focus,
-.actionSheetScroller button.show-focus:hover {
-  color: var(--background) !important;
-  background: var(--contrast) !important;
-}
+/* Dividers in modal content for separating options. */
 .actionsheetDivider {
-  height: calc(var(--border) / 2) !important;
+  height: var(--border) !important;
   background: var(--text) !important;
-  margin: unset !important;
+}
+
+/* Fullscreen modal. */
+.dialog.formDialog {
+  position: fixed !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+.dialogContentInner {
+  padding: var(--spacing) !important;
+  /* Bottom margin includes header and footer and spacing. */
+  margin: 0 auto calc(6 * var(--spacing)) auto !important;
+}
+.formDialogHeader,
+.formDialogFooter {
+  height: calc(2 * var(--spacing)) !important;
+  background: var(--faint) !important;
+}
+.formDialogFooter {
+  -webkit-align-items: flex-end !important;
+  align-items: flex-end !important;
+  bottom: 0 !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+  left: 0 !important;
+  padding: var(--spacing) var(--spacing) !important;
+  position: absolute !important;
+  right: 0 !important;
+  z-index: 1 !important;
+}
+.formDialogHeader button,
+.formDialogFooter button {
+  background: transparent !important;
+  -webkit-flex-basis: unset !important;
+  flex-basis: unset !important;
+  padding: unset !important;
+  width: unset !important;
+}
+
+/* Items in the modals. */
+.dialog .listItem {
+  background: var(--background) !important;
+}
+.dialog .listItem button {
+  background: transparent !important;
+}
+
+.dialog .listItem *:focus,
+.dialog .listItem *:hover {
+  color: var(--hover) !important;
 }
