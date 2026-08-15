@@ -97,6 +97,7 @@ textarea {
 .mainDrawer,
 .listItem:hover:not(.actionSheetMenuItem),
 .cardBox button:not(.actionSheetMenuItem),
+.cardIndicators .indicator,
 .sliderBubble:not(.hide) {
   background: transparent !important;
   -webkit-backdrop-filter: blur(var(--radius)) !important;
