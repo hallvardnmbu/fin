@@ -501,7 +501,9 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 }
 .actionSheetScroller,
 .dialogContentInner,
-.subtitleSyncContainer {
+.subtitleSyncContainer,
+.filterDialogContent {
+  margin: var(--spacing) !important;
   box-sizing: border-box !important;
   background: var(--background) !important;
   border: var(--border) solid var(--text) !important;
@@ -518,13 +520,15 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 /* Fullscreen modal. */
 .dialog.formDialog {
   position: fixed !important;
-  width: 100% !important;
   height: 100% !important;
+}
+.formDialogContent {
+  padding: unset !important;
 }
 .dialogContentInner {
   padding: var(--spacing) !important;
   /* Bottom margin includes header and footer and spacing. */
-  margin: 0 auto calc(6 * var(--spacing)) auto !important;
+  margin: var(--spacing) var(--spacing) calc(6 * var(--spacing)) var(--spacing) !important;
 }
 .formDialogHeader,
 .formDialogFooter {
@@ -563,4 +567,16 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 .dialog .listItem *:focus,
 .dialog .listItem *:hover {
   color: var(--hover) !important;
+}
+
+.dialogContentInner > div {
+  width: 100% !important;
+}
+.dialogContentInner h2 {
+  margin: 0 0 var(--spacing) 0 !important;
+}
+
+/* Targets modals which are assumed to be non-scrollable (on TV). */
+.dialogContentInner:not(:has(.formDialogFooter)):not(:has(button)) {
+  font-size: 0.5rem !important;
 }
