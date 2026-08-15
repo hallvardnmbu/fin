@@ -581,3 +581,16 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 .dialogContentInner:not(:has(.formDialogFooter)):not(:has(button)) {
   font-size: 0.5rem !important;
 }
+
+/* ==========================================================================
+   Misc
+   ========================================================================== */
+
+.alphaPicker {
+  visibility: hidden !important;
+  display: none !important;
+}
+.padded-right-withalphapicker {
+  /* Presumably the same as the padded-left class. */
+  padding-right: max(env(safe-area-inset-left), 3.3%) !important;
+}
