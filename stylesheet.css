@@ -17,7 +17,7 @@
 
   --spacing: 1rem;
 
-  --seen-card-blurred: 0; /* Seen cards background: `0` non-blurred; `1` blurred. */
+  --seen-card-blurred: 1; /* Seen cards: `0` normal, `1` slightly blurred. */
 }
 
 @font-face {
@@ -25,8 +25,7 @@
   font-style: normal;
   font-weight: 200 800;
   font-display: swap;
-  src: url("/style/fonts/bricolage-grotesque/BricolageGrotesque-VariableFont_opsz,wdth,wght.ttf")
-    format("truetype");
+  src: url("/style/fonts/bricolage-grotesque/BricolageGrotesque-VariableFont_opsz,wdth,wght.ttf") format("truetype");
 }
 
 html,
@@ -340,28 +339,28 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 }
 /* Slider thumb. */
 .mdl-slider-hoverthumb::-webkit-slider-thumb {
-  height: var(--radius) !important;
-  width: var(--radius) !important;
+  height: var(--offset) !important;
+  width: var(--offset) !important;
   background: transparent !important;
-  border: var(--border) solid transparent;
+  outline: calc(2 * var(--border)) solid transparent;
 }
 .mdl-slider-hoverthumb::-moz-range-thumb {
-  height: var(--radius) !important;
-  width: var(--radius) !important;
+  height: var(--offset) !important;
+  width: var(--offset) !important;
   background: transparent !important;
-  border: var(--border) solid transparent;
+  outline: calc(2 * var(--border)) solid transparent;
 }
 .mdl-slider-hoverthumb:hover::-webkit-slider-thumb,
 .mdl-slider-hoverthumb:focus::-webkit-slider-thumb {
   transition: unset !important;
   background: var(--hover) !important;
-  border: var(--border) solid var(--contrast);
+  outline: calc(2 * var(--border)) solid var(--contrast);
 }
 .mdl-slider-hoverthumb:hover::-moz-range-thumb,
 .mdl-slider-hoverthumb:focus::-moz-range-thumb {
   transition: unset !important;
   background: var(--hover) !important;
-  border: var(--border) solid var(--contrast);
+  outline: calc(2 * var(--border)) solid var(--contrast);
 }
 
 /* Chapters. */
@@ -430,8 +429,8 @@ button.show-focus:hover .ratingbutton-icon-withrating {
     top: unset !important;
     height: 100% !important;
     width: 100% !important;
-    -webkit-backdrop-filter: blur(var(--border)) !important;
-    backdrop-filter: blur(var(--border)) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+    backdrop-filter: blur(2px) !important;
   }
   .playedIndicator.indicator {
     height: 100% !important;
@@ -525,6 +524,7 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 }
 .formDialogContent {
   padding: unset !important;
+  align-self: center !important;
 }
 .dialogContentInner {
   padding: var(--spacing) !important;
