@@ -83,32 +83,54 @@ textarea {
   background: var(--input) !important;
 }
 
-.cardIndicators .indicator {
-  background: transparent !important;
-  border-radius: var(--radius);
-}
-
 /* Frosted glass panels. */
-.skinHeader,
-.skinHeader.semiTransparent,
-.mainDrawer,
-.listItem:hover:not(.actionSheetMenuItem),
-.cardBox button:not(.actionSheetMenuItem),
-.cardIndicators .indicator,
-.sliderBubble:not(.hide) {
-  background: transparent !important;
-  -webkit-backdrop-filter: blur(var(--radius)) !important;
-  backdrop-filter: blur(var(--radius)) !important;
-  border-radius: var(--radius) !important;
-}
-.upNextContainer {
-  color: var(--focus) !important;
-  background: var(--transparent) !important;
-  -webkit-backdrop-filter: blur(var(--radius)) !important;
-  backdrop-filter: blur(var(--radius)) !important;
 
-  border: var(--border) solid var(--focus) !important;
-  border-radius: calc(2 * var(--radius)) !important;
+html.layout-tv {
+  .skinHeader,
+  .skinHeader.semiTransparent,
+  .mainDrawer,
+  .listItem:hover:not(.actionSheetMenuItem),
+  .cardBox button:not(.actionSheetMenuItem),
+  .cardIndicators .indicator,
+  .indicators .indicator,
+  .sliderBubble:not(.hide) {
+    background: var(--transparent) !important;
+    border-radius: var(--radius) !important;
+  }
+  .upNextContainer {
+    color: var(--focus) !important;
+    background: var(--transparent) !important;
+
+    border: var(--border) solid var(--focus) !important;
+    border-radius: calc(2 * var(--radius)) !important;
+  }
+}
+html:not(.layout-tv) {
+  .listItem button.itemAction {
+    display: none !important;
+  }
+  .skinHeader,
+  .skinHeader.semiTransparent,
+  .mainDrawer,
+  .listItem:hover:not(.actionSheetMenuItem),
+  .cardBox button:not(.actionSheetMenuItem),
+  .cardIndicators .indicator,
+  .indicators .indicator,
+  .sliderBubble:not(.hide) {
+    background: transparent !important;
+    -webkit-backdrop-filter: blur(var(--radius)) !important;
+    backdrop-filter: blur(var(--radius)) !important;
+    border-radius: var(--radius) !important;
+  }
+  .upNextContainer {
+    color: var(--focus) !important;
+    background: var(--transparent) !important;
+    -webkit-backdrop-filter: blur(var(--radius)) !important;
+    backdrop-filter: blur(var(--radius)) !important;
+
+    border: var(--border) solid var(--focus) !important;
+    border-radius: calc(2 * var(--radius)) !important;
+  }
 }
 
 /* ==========================================================================
@@ -421,11 +443,35 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 }
 
 /* Distinguish "seen" cards. */
-.cardBox:has(.playedIndicator.indicator) {
-  opacity: 0.5 !important;
+
+/* TV: */
+html.layout-tv {
+  .cardBox:has(.playedIndicator.indicator) {
+    opacity: 0.5 !important;
+  }
+  .cardBox:has(.playedIndicator.indicator) bdi {
+    color: var(--focus) !important;
+  }
 }
-.cardBox:has(.playedIndicator.indicator) bdi {
-  color: var(--focus) !important;
+/* Non-TV: */
+html:not(.layout-tv) {
+  .cardIndicators:has(.playedIndicator.indicator) {
+    right: unset !important;
+    top: unset !important;
+    height: 100% !important;
+    width: 100% !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+    backdrop-filter: blur(2px) !important;
+  }
+  .playedIndicator.indicator {
+    height: 100% !important;
+    width: 100% !important;
+  }
+  .playedIndicator.indicator > * {
+    position: absolute !important;
+    top: 0.225em !important;
+    right: 0.225em !important;
+  }
 }
 
 /* Progress bar on cards */
@@ -489,7 +535,7 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 .dialogContentInner,
 .subtitleSyncContainer,
 .filterDialogContent {
-  margin: var(--spacing) !important;
+  margin: auto auto !important;
   box-sizing: border-box !important;
   background: var(--background) !important;
   border: var(--border) solid var(--text) !important;
