@@ -7,8 +7,8 @@
   --text: #eeeeee;
   --contrast: var(--text);
 
-  --highlight: #088199;
-  --hover: color-mix(in srgb, var(--highlight) 60%, var(--text));
+  --hover: #64adbb;
+  --highlight: var(--hover);
 
   --border: 0.1em;
   --radius: 0.5rem;
@@ -85,52 +85,49 @@ textarea {
 
 /* Frosted glass panels. */
 
-html.layout-tv {
-  .skinHeader,
-  .skinHeader.semiTransparent,
-  .mainDrawer,
-  .listItem:hover:not(.actionSheetMenuItem),
-  .cardBox button:not(.actionSheetMenuItem),
-  .cardIndicators .indicator,
-  .indicators .indicator,
-  .sliderBubble:not(.hide) {
-    background: var(--transparent) !important;
-    border-radius: var(--radius) !important;
-  }
-  .upNextContainer {
-    color: var(--focus) !important;
-    background: var(--transparent) !important;
-
-    border: var(--border) solid var(--focus) !important;
-    border-radius: calc(2 * var(--radius)) !important;
-  }
+html.layout-tv .skinHeader,
+html.layout-tv .skinHeader.semiTransparent,
+html.layout-tv .mainDrawer,
+html.layout-tv .listItem:hover:not(.actionSheetMenuItem),
+html.layout-tv .cardBox button:not(.actionSheetMenuItem),
+html.layout-tv .cardIndicators .indicator,
+html.layout-tv .indicators .indicator,
+html.layout-tv .sliderBubble:not(.hide) {
+  background: var(--transparent) !important;
+  border-radius: var(--radius) !important;
 }
-html:not(.layout-tv) {
-  .listItem button.itemAction {
-    display: none !important;
-  }
-  .skinHeader,
-  .skinHeader.semiTransparent,
-  .mainDrawer,
-  .listItem:hover:not(.actionSheetMenuItem),
-  .cardBox button:not(.actionSheetMenuItem),
-  .cardIndicators .indicator,
-  .indicators .indicator,
-  .sliderBubble:not(.hide) {
-    background: transparent !important;
-    -webkit-backdrop-filter: blur(var(--radius)) !important;
-    backdrop-filter: blur(var(--radius)) !important;
-    border-radius: var(--radius) !important;
-  }
-  .upNextContainer {
-    color: var(--focus) !important;
-    background: var(--transparent) !important;
-    -webkit-backdrop-filter: blur(var(--radius)) !important;
-    backdrop-filter: blur(var(--radius)) !important;
+html.layout-tv .upNextContainer {
+  color: var(--focus) !important;
+  background: var(--transparent) !important;
 
-    border: var(--border) solid var(--focus) !important;
-    border-radius: calc(2 * var(--radius)) !important;
-  }
+  border: var(--border) solid var(--focus) !important;
+  border-radius: calc(2 * var(--radius)) !important;
+}
+
+html:not(.layout-tv) .listItem button.itemAction {
+  display: none !important;
+}
+html:not(.layout-tv) .skinHeader,
+html:not(.layout-tv) .skinHeader.semiTransparent,
+html:not(.layout-tv) .mainDrawer,
+html:not(.layout-tv) .listItem:hover:not(.actionSheetMenuItem),
+html:not(.layout-tv) .cardBox button:not(.actionSheetMenuItem),
+html:not(.layout-tv) .cardIndicators .indicator,
+html:not(.layout-tv) .indicators .indicator,
+html:not(.layout-tv) .sliderBubble:not(.hide) {
+  background: transparent !important;
+  -webkit-backdrop-filter: blur(var(--radius)) !important;
+  backdrop-filter: blur(var(--radius)) !important;
+  border-radius: var(--radius) !important;
+}
+html:not(.layout-tv) .upNextContainer {
+  color: var(--focus) !important;
+  background: var(--transparent) !important;
+  -webkit-backdrop-filter: blur(var(--radius)) !important;
+  backdrop-filter: blur(var(--radius)) !important;
+
+  border: var(--border) solid var(--focus) !important;
+  border-radius: calc(2 * var(--radius)) !important;
 }
 
 /* ==========================================================================
@@ -190,6 +187,11 @@ h1.parentName {
 button:not(.cardBox button):not(.skinHeader button):hover {
   background: transparent !important;
 }
+form button {
+  background: transparent !important;
+  border-radius: var(--radius) !important;
+  border: var(--border) solid var(--contrast) !important;
+}
 
 /* Active and focused buttons.
  * TV focus uses the show-focus class. */
@@ -198,7 +200,7 @@ button:not(.cardBox button):not(.skinHeader button):hover {
   color: var(--contrast) !important;
 }
 .emby-tab-button-active {
-  color: var(--highlight) !important;
+  font-style: italic !important;
 }
 .selectLabelFocused,
 .skinHeader button:hover,
@@ -214,6 +216,10 @@ button.show-focus:hover,
 button.show-focus:focus span,
 button.show-focus:hover span {
   color: var(--hover) !important;
+}
+.emby-tab-button-active:focus,
+.emby-tab-button-active:hover {
+  font-style: normal !important;
 }
 
 .card:focus,
@@ -263,10 +269,20 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   border: var(--border) solid var(--contrast) !important;
 }
 .checkboxOutline .checkboxIcon::before {
+  display: none !important; /* Don't show the "tick". */
   background: transparent !important;
 }
+.checkboxIcon {
+  width: 100% !important;
+  height: 100% !important;
+}
+.checkboxIcon-checked {
+  background: var(--contrast) !important;
+}
 .emby-checkbox:hover ~ .checkboxOutline,
-.emby-checkbox:focus ~ .checkboxOutline {
+.emby-checkbox:focus ~ .checkboxOutline,
+.emby-checkbox:hover ~ .checkboxOutline .checkboxIcon-checked,
+.emby-checkbox:focus ~ .checkboxOutline .checkboxIcon-checked {
   background: var(--hover) !important;
 }
 
@@ -445,33 +461,29 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 /* Distinguish "seen" cards. */
 
 /* TV: */
-html.layout-tv {
-  .cardBox:has(.playedIndicator.indicator) {
-    opacity: 0.5 !important;
-  }
-  .cardBox:has(.playedIndicator.indicator) bdi {
-    color: var(--focus) !important;
-  }
+html.layout-tv .cardBox:has(.playedIndicator.indicator) {
+  opacity: 0.5 !important;
+}
+html.layout-tv .cardBox:has(.playedIndicator.indicator) bdi {
+  color: var(--focus) !important;
 }
 /* Non-TV: */
-html:not(.layout-tv) {
-  .cardIndicators:has(.playedIndicator.indicator) {
-    right: unset !important;
-    top: unset !important;
-    height: 100% !important;
-    width: 100% !important;
-    -webkit-backdrop-filter: blur(2px) !important;
-    backdrop-filter: blur(2px) !important;
-  }
-  .playedIndicator.indicator {
-    height: 100% !important;
-    width: 100% !important;
-  }
-  .playedIndicator.indicator > * {
-    position: absolute !important;
-    top: 0.225em !important;
-    right: 0.225em !important;
-  }
+html:not(.layout-tv) .cardIndicators:has(.playedIndicator.indicator) {
+  right: unset !important;
+  top: unset !important;
+  height: 100% !important;
+  width: 100% !important;
+  -webkit-backdrop-filter: blur(2px) !important;
+  backdrop-filter: blur(2px) !important;
+}
+html:not(.layout-tv) .playedIndicator.indicator {
+  height: 100% !important;
+  width: 100% !important;
+}
+html:not(.layout-tv) .playedIndicator.indicator > * {
+  position: absolute !important;
+  top: 0.225em !important;
+  right: 0.225em !important;
 }
 
 /* Progress bar on cards */
@@ -501,7 +513,7 @@ html:not(.layout-tv) {
 }
 .cardScalable {
   /* Reserve space for focus outline; prevent title from being too close to the outline. */
-  margin-bottom: var(--offset) !important;
+  margin-bottom: calc(2 * var(--offset)) !important;
 
   border: unset !important;
   border-radius: var(--radius) !important;
