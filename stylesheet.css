@@ -7,50 +7,18 @@
   --spacing: 1rem;
 }
 
-/* Debug. */
-/*
+/* Colors. */
 :root {
-  --focus: #ff0000;
-  --background: #121212;
-  --input: #00ff00;
-  --transparent: #00000040;
-
-  --text: #e0e0e0;
-  --contrast: #b0b0b0;
-
-  --hover: #0000ff;
-  --highlight: var(--hover);
-}
-*/
-
-/* Grayscale. */
-/*
-:root {
-  --focus: #888888;
-  --background: #121212;
-  --input: #444444;
-  --transparent: #00000040;
-
-  --text: #e0e0e0;
-  --contrast: #b0b0b0;
-
-  --hover: #888888;
-  --highlight: var(--hover);
-}
-*/
-
-/* Regular. */
-:root {
-  --focus: #aaaaaa;
   --background: #0f0f0f;
   --input: #262626;
   --transparent: #00000040;
 
-  --text: #eeeeee;
-  --contrast: var(--text);
+  --text: #b0b0b0;
+  --focus: #aaaaaa;
+  --contrast: #e0e0e0;
 
-  --hover: #64adbb;
-  --highlight: var(--hover);
+  --glow: #822659;
+  --rated: #ff5722;
 }
 
 @font-face {
@@ -79,7 +47,8 @@ body {
 /* Disable animations. */
 .show-focus,
 .itemAction,
-.emby-select-focusscale {
+.emby-select-focusscale,
+.mainAnimatedPages * {
   transition: none !important;
 
   transform: none !important;
@@ -87,6 +56,14 @@ body {
 
   animation: none !important;
   -webkit-animation: none !important;
+}
+.itemsContainer,
+.itemsContainer .cardBox {
+  will-change: transform;
+}
+.itemsContainer .card {
+  transition: none !important;
+  box-shadow: none !important;
 }
 
 /* Loading spinner. */
@@ -197,14 +174,15 @@ h1.parentName {
 
 .playstatebutton-icon-played,
 .ratingbutton-icon-withrating {
-  color: var(--highlight) !important;
+  color: var(--rated) !important;
 }
 .dialogContentInner .listItemIcon {
   background: var(--focus) !important;
   margin: unset !important;
 }
 .subtitleFeaturePillow {
-  background: var(--highlight) !important;
+  background: orange !important;
+  border: 1px solid red;
 }
 
 .emby-scrollbuttons-button,
@@ -236,9 +214,6 @@ form button {
 .button-link {
   color: var(--contrast) !important;
 }
-.emby-tab-button-active {
-  font-style: italic !important;
-}
 
 .selectLabelFocused,
 .skinHeader button:hover,
@@ -253,14 +228,12 @@ button.show-focus:focus,
 button.show-focus:hover,
 button.show-focus:focus span,
 button.show-focus:hover span {
-  color: var(--hover) !important;
-}
-
-/* Target all clickable that's NOT an icon or card. */
-button.show-focus:focus *:not(.material-icons):not(.card *),
-button.show-focus:hover *:not(.material-icons):not(.card *) {
-  color: var(--focus) !important;
-  font-style: italic;
+  color: var(--text) !important;
+  text-shadow:
+    0 0 var(--radius) var(--focus),
+    0 0 var(--radius) var(--glow),
+    0 0 var(--radius) var(--glow),
+    0 0 var(--spacing) var(--glow);
 }
 
 .emby-tab-button-active:focus,
@@ -299,7 +272,7 @@ button.show-focus:hover *:not(.material-icons):not(.card *) {
 /* Menu items. E.g., settings page. */
 .show-focus:focus:not(.card):not(button):not(.subtitleSync *):has(.listItem),
 .show-focus:hover:not(.card):not(button):not(.subtitleSync *):has(.listItem) {
-  color: var(--hover) !important;
+  color: var(--text) !important;
   text-decoration: unset !important;
 }
 
@@ -348,7 +321,7 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 .emby-checkbox:focus ~ .checkboxOutline,
 .emby-checkbox:hover ~ .checkboxOutline .checkboxIcon-checked,
 .emby-checkbox:focus ~ .checkboxOutline .checkboxIcon-checked {
-  background: var(--hover) !important;
+  background: var(--focus) !important;
 }
 
 /* Radio. */
@@ -468,13 +441,13 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 .mdl-slider-hoverthumb:hover::-webkit-slider-thumb,
 .mdl-slider-hoverthumb:focus::-webkit-slider-thumb {
   transition: unset !important;
-  background: var(--hover) !important;
+  background: var(--focus) !important;
   outline: calc(2 * var(--border)) solid var(--contrast);
 }
 .mdl-slider-hoverthumb:hover::-moz-range-thumb,
 .mdl-slider-hoverthumb:focus::-moz-range-thumb {
   transition: unset !important;
-  background: var(--hover) !important;
+  background: var(--focus) !important;
   outline: calc(2 * var(--border)) solid var(--contrast);
 }
 
@@ -703,7 +676,7 @@ html:not(.layout-tv) .playedIndicator.indicator > * {
 
 .dialog .listItem *:focus,
 .dialog .listItem *:hover {
-  color: var(--hover) !important;
+  color: var(--focus) !important;
 }
 
 .dialogContentInner > div {
