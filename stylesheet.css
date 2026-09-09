@@ -57,14 +57,6 @@ body {
   animation: none !important;
   -webkit-animation: none !important;
 }
-.itemsContainer,
-.itemsContainer .cardBox {
-  will-change: transform;
-}
-.itemsContainer .card {
-  transition: none !important;
-  box-shadow: none !important;
-}
 
 /* Loading spinner. */
 .mdl-spinner__layer-1 .mdl-spinner__circle-clipper .mdl-spinner__circle,
