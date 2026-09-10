@@ -206,6 +206,7 @@ form button {
   color: var(--contrast) !important;
 }
 
+/* Glow on hover/focus. */
 .selectLabelFocused,
 .skinHeader button:hover,
 .skinHeader button:focus,
@@ -225,6 +226,11 @@ button.show-focus:hover span {
     0 0 var(--radius) var(--glow),
     0 0 var(--radius) var(--glow),
     0 0 var(--spacing) var(--glow);
+}
+/* Unset glow on specific children. */
+button.itemAction:hover .listItemBody .secondary *,
+button.itemAction:focus .listItemBody .secondary * {
+  text-shadow: none !important;
 }
 
 .emby-tab-button-active:focus,
@@ -298,21 +304,22 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   border: var(--border) solid var(--contrast) !important;
 }
 .checkboxOutline .checkboxIcon::before {
-  display: none !important; /* Don't show the "tick". */
+  color: var(--contrast) !important;
   background: transparent !important;
 }
 .checkboxIcon {
   width: 100% !important;
   height: 100% !important;
 }
-.checkboxIcon-checked {
-  background: var(--contrast) !important;
-}
 .emby-checkbox:hover ~ .checkboxOutline,
 .emby-checkbox:focus ~ .checkboxOutline,
 .emby-checkbox:hover ~ .checkboxOutline .checkboxIcon-checked,
 .emby-checkbox:focus ~ .checkboxOutline .checkboxIcon-checked {
-  background: var(--focus) !important;
+  box-shadow:
+    0 0 var(--radius) var(--focus),
+    0 0 var(--radius) var(--glow),
+    0 0 var(--radius) var(--glow),
+    0 0 var(--spacing) var(--glow);
 }
 
 /* Radio. */
