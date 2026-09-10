@@ -47,8 +47,7 @@ body {
 /* Disable animations. */
 .show-focus,
 .itemAction,
-.emby-select-focusscale,
-.mainAnimatedPages * {
+.emby-select-focusscale {
   transition: none !important;
 
   transform: none !important;
