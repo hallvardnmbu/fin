@@ -154,10 +154,6 @@ h1.parentName {
   margin: var(--border) 0 0 !important;
 }
 
-.skinHeader {
-  color: var(--text) !important;
-}
-
 .skinHeader button,
 .subtitleSync button,
 .cardOverlayButtonIcon,
@@ -391,6 +387,14 @@ button.show-focus:hover .ratingbutton-icon-withrating {
    Playback
    ========================================================================== */
 
+.skinHeader {
+  color: var(--text) !important;
+}
+/* Header inside the video player. */
+.videoPlayerContainer ~ * .skinHeader * {
+  color: var(--contrast) !important;
+}
+
 /* Playback buttons. */
 #videoOsdPage button,
 #videoOsdPage input,
@@ -466,13 +470,13 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 .mdl-slider-hoverthumb:hover::-webkit-slider-thumb,
 .mdl-slider-hoverthumb:focus::-webkit-slider-thumb {
   transition: unset !important;
-  background: var(--focus) !important;
+  background: transparent  !important;
   outline: calc(2 * var(--border)) solid var(--contrast);
 }
 .mdl-slider-hoverthumb:hover::-moz-range-thumb,
 .mdl-slider-hoverthumb:focus::-moz-range-thumb {
   transition: unset !important;
-  background: var(--focus) !important;
+  background: transparent !important;
   outline: calc(2 * var(--border)) solid var(--contrast);
 }
 
