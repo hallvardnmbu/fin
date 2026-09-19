@@ -21,7 +21,6 @@
   --jf-palette-primary-dark: var(--transparent);
 
   --glow: #822659;
-  --rated: #ff5722;
 }
 
 @font-face {
@@ -175,7 +174,7 @@ h1.parentName {
 
 .playstatebutton-icon-played,
 .ratingbutton-icon-withrating {
-  color: var(--rated) !important;
+  color: var(--glow) !important;
 }
 .dialogContentInner .listItemIcon {
   background: var(--focus) !important;
@@ -256,6 +255,10 @@ button.itemAction:focus .listItemBody .secondary * {
   color: var(--focus) !important;
 }
 
+.indicator *,
+.cardIndicators * {
+    color: var(--contrast) !important;
+}
 /* Highlight card text on focus. ignore "seen" cards as they're already faint. */
 .card.show-focus:focus
   *:not(.cardIndicators):not(.cardIndicators *)
@@ -472,12 +475,14 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   transition: unset !important;
   background: transparent  !important;
   outline: calc(2 * var(--border)) solid var(--contrast);
+  box-shadow: 0 0 var(--spacing) 8px var(--glow) !important;
 }
 .mdl-slider-hoverthumb:hover::-moz-range-thumb,
 .mdl-slider-hoverthumb:focus::-moz-range-thumb {
   transition: unset !important;
   background: transparent !important;
   outline: calc(2 * var(--border)) solid var(--contrast);
+  box-shadow: 0 0 var(--spacing) 8px var(--glow) !important;
 }
 
 /* Chapters. */
