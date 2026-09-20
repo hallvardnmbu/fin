@@ -230,10 +230,9 @@ button.show-focus:focus span,
 button.show-focus:hover span,
 button.MuiButton-root:hover span,
 button.MuiButton-root:focus span {
-  color: var(--text) !important;
+  color: var(--contrast) !important;
   text-shadow:
-    0 0 var(--radius) var(--focus),
-    0 0 var(--radius) var(--glow),
+    0 0 var(--radius) var(--contrast),
     0 0 var(--radius) var(--glow),
     0 0 var(--spacing) var(--glow);
 }
@@ -257,7 +256,7 @@ button.itemAction:focus .listItemBody .secondary * {
 
 .indicator *,
 .cardIndicators * {
-    color: var(--contrast) !important;
+  color: var(--contrast) !important;
 }
 /* Highlight card text on focus. ignore "seen" cards as they're already faint. */
 .card.show-focus:focus
@@ -331,7 +330,6 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   box-shadow:
     0 0 var(--radius) var(--focus),
     0 0 var(--radius) var(--glow),
-    0 0 var(--radius) var(--glow),
     0 0 var(--spacing) var(--glow);
 }
 
@@ -366,10 +364,8 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 .selectContainer select:hover {
   border: var(--border) solid var(--background) !important;
   box-shadow:
-    0 0 var(--radius) var(--focus),
-    0 0 var(--radius) var(--glow),
-    0 0 var(--radius) var(--glow),
-    0 0 var(--spacing) var(--glow);
+    0 0 var(--offset) var(--contrast),
+    0 0 var(--radius) var(--glow);
 }
 .selectArrowContainer {
   display: none !important;
@@ -473,7 +469,7 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 .mdl-slider-hoverthumb:hover::-webkit-slider-thumb,
 .mdl-slider-hoverthumb:focus::-webkit-slider-thumb {
   transition: unset !important;
-  background: transparent  !important;
+  background: transparent !important;
   outline: calc(2 * var(--border)) solid var(--contrast);
   box-shadow: 0 0 var(--spacing) 8px var(--glow) !important;
 }
@@ -739,11 +735,3 @@ html:not(.layout-tv) .playedIndicator.indicator > * {
   /* Presumably the same as the padded-left class. */
   padding-right: max(env(safe-area-inset-left), 3.3%) !important;
 }
-
-/* ==========================================================================
-   Version 12.0+ specific
-   ========================================================================== */
-
-   MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeLarge MuiButton-textSizeLarge MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeLarge MuiButton-textSizeLarge MuiButton-colorInherit css-iqm7ky
-
-   MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit css-1f20jcn
