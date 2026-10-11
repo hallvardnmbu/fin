@@ -1,26 +1,26 @@
-/* Constant variables. */
+/* Constants and colors. */
 :root {
   --border: 0.1em;
   --radius: 0.5rem;
   --round: 10rem;
   --offset: 0.25rem;
   --spacing: 1rem;
-}
 
-/* Colors. */
-:root {
   --background: #0f0f0f;
   --transparent: #00000040;
 
   --text: #b0b0b0;
   --focus: #aaaaaa;
   --contrast: #e0e0e0;
+  --glow: #822659;
 
+  /* v12 themes read these; secondary is used for focus/interactive states. */
   --jf-palette-primary-main: var(--text);
   --jf-palette-primary-light: var(--text);
   --jf-palette-primary-dark: var(--transparent);
-
-  --glow: #822659;
+  --jf-palette-secondary-main: var(--focus);
+  --jf-palette-text-secondary: var(--text);
+  --jf-palette-background-default: var(--background);
 }
 
 @font-face {
@@ -50,32 +50,22 @@ body {
 /* Disable animations. */
 .show-focus,
 .itemAction,
-.emby-select-focusscale {
+.emby-select-focusscale,
+.cardOverlayFab-primary:hover {
   transition: none !important;
-
   transform: none !important;
-  -webkit-transform: none !important;
-
   animation: none !important;
-  -webkit-animation: none !important;
 }
 
 /* Loading spinner. */
-.mdl-spinner__layer-1 .mdl-spinner__circle-clipper .mdl-spinner__circle,
-.mdl-spinner__layer-2 .mdl-spinner__circle-clipper .mdl-spinner__circle,
-.mdl-spinner__layer-3 .mdl-spinner__circle-clipper .mdl-spinner__circle,
-.mdl-spinner__layer-4 .mdl-spinner__circle-clipper .mdl-spinner__circle {
-  border-color: var(--contrast);
-  border-width: var(--radius);
+.mdl-spinner__circle {
+  border-color: var(--contrast) !important;
+  border-width: var(--radius) !important;
 }
 
 /* ==========================================================================
    Backgrounds
    ========================================================================== */
-
-.backgroundContainer {
-  background: var(--background) !important;
-}
 
 .pageTabContent,
 .detailRibbon,
@@ -86,57 +76,36 @@ body {
 input,
 select,
 textarea {
-  background: color-mix(in srgb, var(--background) 97%, #ffffff 3%) !important;
+  /* --background with 3% white; color-mix() needs Chromium 111, Tizen 8 is 108. */
+  background: #161616 !important;
 }
 
-/* Frosted glass panels. */
-
-html.layout-tv .skinHeader,
-html.layout-tv .skinHeader.semiTransparent {
-  background: transparent !important;
-}
-html.layout-tv .mainDrawer,
-html.layout-tv .listItem:hover:not(.actionSheetMenuItem),
-html.layout-tv .cardBox button:not(.actionSheetMenuItem),
-html.layout-tv .cardIndicators .indicator,
-html.layout-tv .indicators .indicator,
-html.layout-tv .sliderBubble:not(.hide) {
-  background: transparent !important;
-  border-radius: var(--radius) !important;
-}
-html.layout-tv .upNextContainer {
-  color: var(--focus) !important;
-  background: var(--transparent) !important;
-
-  border: var(--border) solid var(--focus) !important;
-  border-radius: calc(2 * var(--radius)) !important;
-}
-
-html:not(.layout-tv) .listItem button.itemAction {
-  display: none !important;
-}
-html:not(.layout-tv) .skinHeader,
-html:not(.layout-tv) .skinHeader.semiTransparent,
-html:not(.layout-tv) .mainDrawer,
-html:not(.layout-tv) .listItem:hover:not(.actionSheetMenuItem),
-html:not(.layout-tv) .cardBox button:not(.actionSheetMenuItem),
-html:not(.layout-tv) .cardIndicators .indicator,
-html:not(.layout-tv) .indicators .indicator,
-html:not(.layout-tv) .sliderBubble:not(.hide),
+/* Frosted glass panels; no blur on TV for performance. */
+.skinHeader,
+.mainDrawer,
+.listItem:hover:not(.actionSheetMenuItem),
+.cardBox button:not(.actionSheetMenuItem),
+.cardIndicators .indicator,
+.indicators .indicator,
+.sliderBubble:not(.hide),
 html:not(.layout-tv) .MuiPaper-elevation {
   background: transparent !important;
-  -webkit-backdrop-filter: blur(var(--radius)) !important;
-  backdrop-filter: blur(var(--radius)) !important;
   border-radius: var(--radius) !important;
 }
-html:not(.layout-tv) .upNextContainer {
+.upNextContainer {
   color: var(--focus) !important;
   background: var(--transparent) !important;
-  -webkit-backdrop-filter: blur(var(--radius)) !important;
-  backdrop-filter: blur(var(--radius)) !important;
-
   border: var(--border) solid var(--focus) !important;
   border-radius: calc(2 * var(--radius)) !important;
+}
+html:not(.layout-tv)
+  :is(.skinHeader, .mainDrawer, .listItem:hover, .cardBox button, .cardIndicators .indicator, .indicators .indicator,
+    .sliderBubble:not(.hide), .MuiPaper-elevation, .upNextContainer):not(.actionSheetMenuItem) {
+  -webkit-backdrop-filter: blur(var(--radius)) !important;
+  backdrop-filter: blur(var(--radius)) !important;
+}
+html:not(.layout-tv) .listItem button.itemAction {
+  display: none !important;
 }
 
 /* ==========================================================================
@@ -160,11 +129,9 @@ h1.parentName {
   background: transparent !important;
 }
 
-.MuiPaper-elevation button {
-  border: none !important;
-  box-shadow: none !important;
-}
+.MuiPaper-elevation button,
 .MuiButtonGroup-root {
+  border: none !important;
   box-shadow: none !important;
 }
 
@@ -193,11 +160,6 @@ h1.parentName {
   margin: var(--offset);
 }
 
-.cardOverlayFab-primary:hover {
-  -webkit-transform: none !important;
-  transform: none !important;
-}
-
 button:not(.cardBox button):not(.skinHeader button):hover {
   background: transparent !important;
 }
@@ -216,20 +178,8 @@ form button {
 
 /* Glow on hover/focus. */
 .selectLabelFocused,
-.skinHeader button:hover,
-.skinHeader button:focus,
-.emby-button:hover,
-.emby-button:focus,
-button.itemAction:hover,
-button.itemAction:focus,
-button:not(.cardBox button):not(.skinHeader button):hover,
-button:not(.cardBox button):not(.skinHeader button):focus,
-button.show-focus:focus,
-button.show-focus:hover,
-button.show-focus:focus span,
-button.show-focus:hover span,
-button.MuiButton-root:hover span,
-button.MuiButton-root:focus span {
+:is(.emby-button, button.itemAction, button.show-focus, button:not(.cardBox button)):is(:hover, :focus),
+:is(button.show-focus, button.MuiButton-root):is(:hover, :focus) span {
   color: var(--contrast) !important;
   text-shadow:
     0 0 var(--radius) var(--contrast),
@@ -237,20 +187,15 @@ button.MuiButton-root:focus span {
     0 0 var(--spacing) var(--glow);
 }
 /* Unset glow on specific children. */
-button.itemAction:hover .listItemBody .secondary *,
-button.itemAction:focus .listItemBody .secondary * {
+button.itemAction:is(:hover, :focus) .listItemBody .secondary * {
   text-shadow: none !important;
 }
 
-.emby-tab-button-active:focus,
-.emby-tab-button-active:hover {
+.emby-tab-button-active:is(:focus, :hover) {
   font-style: normal !important;
 }
 
-.card:focus,
-.card:hover,
-.card.show-focus:focus,
-.card.show-focus:hover {
+.card:is(:focus, :hover) {
   color: var(--focus) !important;
 }
 
@@ -259,41 +204,27 @@ button.itemAction:focus .listItemBody .secondary * {
   color: var(--contrast) !important;
 }
 /* Highlight card text on focus. ignore "seen" cards as they're already faint. */
-.card.show-focus:focus
-  *:not(.cardIndicators):not(.cardIndicators *)
-  *:not(.cardBox:has(.playedIndicator.indicator) bdi),
-.card.show-focus:hover
+.card.show-focus:is(:focus, :hover)
   *:not(.cardIndicators):not(.cardIndicators *)
   *:not(.cardBox:has(.playedIndicator.indicator) bdi) {
   color: initial !important;
 }
-.card.show-focus:focus *:is(.cardIndicators, .cardIndicators *),
-.card.show-focus:hover *:is(.cardIndicators, .cardIndicators *) {
+.card.show-focus:is(:focus, :hover) *:is(.cardIndicators, .cardIndicators *) {
   color: var(--text) !important; /* Played and number badges on cards. */
 }
 
 /* Arbitrary selectable text. */
-.show-focus:focus:not(.card):not(button):not(.subtitleSync *),
-.show-focus:hover:not(.card):not(button):not(.subtitleSync *) {
+.show-focus:is(:focus, :hover):not(.card):not(button):not(.subtitleSync *) {
   color: var(--text) !important;
   background: transparent !important;
 }
 /* Menu items. E.g., settings page. */
-.show-focus:focus:not(.card):not(button):not(.subtitleSync *):has(.listItem),
-.show-focus:hover:not(.card):not(button):not(.subtitleSync *):has(.listItem) {
-  color: var(--text) !important;
+.show-focus:is(:focus, :hover):not(.card):not(button):not(.subtitleSync *):has(.listItem) {
   text-decoration: unset !important;
 }
 
 /* Played and favourite hover when "checked". */
-.playstatebutton-icon-played:hover,
-.ratingbutton-icon-withrating:hover,
-button:hover .playstatebutton-icon-played,
-button:hover .ratingbutton-icon-withrating,
-button.show-focus:focus .playstatebutton-icon-played,
-button.show-focus:hover .playstatebutton-icon-played,
-button.show-focus:focus .ratingbutton-icon-withrating,
-button.show-focus:hover .ratingbutton-icon-withrating {
+button:is(:hover, .show-focus:focus) :is(.playstatebutton-icon-played, .ratingbutton-icon-withrating) {
   color: var(--focus) !important;
 }
 
@@ -301,10 +232,6 @@ button.show-focus:hover .ratingbutton-icon-withrating {
    Inputs
    ========================================================================== */
 
-.emby-select-withcolor:focus,
-.emby-textarea:focus {
-  border-color: var(--focus) !important;
-}
 *:has(.listItem) {
   border: unset !important;
 }
@@ -323,10 +250,8 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   width: 100% !important;
   height: 100% !important;
 }
-.emby-checkbox:hover ~ .checkboxOutline,
-.emby-checkbox:focus ~ .checkboxOutline,
-.emby-checkbox:hover ~ .checkboxOutline .checkboxIcon-checked,
-.emby-checkbox:focus ~ .checkboxOutline .checkboxIcon-checked {
+.emby-checkbox:is(:hover, :focus) ~ .checkboxOutline,
+.emby-checkbox:is(:hover, :focus) ~ .checkboxOutline .checkboxIcon-checked {
   box-shadow:
     0 0 var(--radius) var(--focus),
     0 0 var(--radius) var(--glow),
@@ -338,8 +263,7 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 .mdl-radio__inner-circle {
   color: var(--text) !important;
 }
-.show-focus:focus .mdl-radio__circles .mdl-radio__outer-circle,
-.show-focus:hover .mdl-radio__circles .mdl-radio__outer-circle {
+.mdl-radio.show-focus:hover .mdl-radio__outer-circle {
   color: var(--focus) !important;
 }
 .mdl-radio__focus-circle {
@@ -356,12 +280,7 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 .inputContainer input {
   border: var(--border) solid transparent; /* Prevent effect on focus. */
 }
-.inputContainer input:focus,
-.inputContainer input:hover,
-.inputContainer textarea:focus,
-.inputContainer textarea:hover,
-.selectContainer select:focus,
-.selectContainer select:hover {
+:is(.inputContainer input, .inputContainer textarea, .selectContainer select):is(:focus, :hover) {
   border: var(--border) solid var(--background) !important;
   box-shadow:
     0 0 var(--offset) var(--contrast),
@@ -377,18 +296,11 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   font-weight: bold !important;
   text-shadow: none !important;
 }
-.inputContainer label,
-.selectContainer select {
-  color: var(--text) !important;
-}
 
 /* ==========================================================================
    Playback
    ========================================================================== */
 
-.skinHeader {
-  color: var(--text) !important;
-}
 /* Header inside the video player. */
 .videoPlayerContainer ~ * .skinHeader * {
   color: var(--contrast) !important;
@@ -397,8 +309,7 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 /* Playback buttons. */
 #videoOsdPage button,
 #videoOsdPage input,
-#videoOsdPage .show-focus:focus,
-#videoOsdPage .show-focus:hover {
+#videoOsdPage .show-focus:is(:focus, :hover) {
   background: transparent !important;
   border: none !important;
 }
@@ -406,8 +317,7 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 /* Position the playing track below the timestamps. */
 .osdControls .flex {
   display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  grid-template-rows: 1fr auto !important;
+  grid: 1fr auto / 1fr 1fr !important;
 }
 .osdControls .flex .osdTextContainer.startTimeText {
   grid-column: 1 !important;
@@ -455,29 +365,25 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 }
 /* Slider thumb. */
 .mdl-slider-hoverthumb::-webkit-slider-thumb {
+  transition: unset !important;
   height: var(--offset) !important;
   width: var(--offset) !important;
   background: transparent !important;
   outline: calc(2 * var(--border)) solid transparent;
 }
 .mdl-slider-hoverthumb::-moz-range-thumb {
+  transition: unset !important;
   height: var(--offset) !important;
   width: var(--offset) !important;
   background: transparent !important;
   outline: calc(2 * var(--border)) solid transparent;
 }
-.mdl-slider-hoverthumb:hover::-webkit-slider-thumb,
-.mdl-slider-hoverthumb:focus::-webkit-slider-thumb {
-  transition: unset !important;
-  background: transparent !important;
-  outline: calc(2 * var(--border)) solid var(--contrast);
+.mdl-slider-hoverthumb:is(:hover, :focus)::-webkit-slider-thumb {
+  outline-color: var(--contrast);
   box-shadow: 0 0 var(--spacing) 8px var(--glow) !important;
 }
-.mdl-slider-hoverthumb:hover::-moz-range-thumb,
-.mdl-slider-hoverthumb:focus::-moz-range-thumb {
-  transition: unset !important;
-  background: transparent !important;
-  outline: calc(2 * var(--border)) solid var(--contrast);
+.mdl-slider-hoverthumb:is(:hover, :focus)::-moz-range-thumb {
+  outline-color: var(--contrast);
   box-shadow: 0 0 var(--spacing) 8px var(--glow) !important;
 }
 
@@ -511,7 +417,6 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   font-size: 1em !important;
 }
 .upNextContainer .upNextDialog-countdownText {
-  color: var(--text) !important;
   font-size: 2em !important;
 }
 .upNextDialog-buttons {
@@ -529,9 +434,6 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 
 .cardContent {
   contain: inherit !important;
-}
-.cardPadder {
-  border-radius: var(--border) !important;
 }
 
 .cardPadder,
@@ -638,7 +540,6 @@ html:not(.layout-tv) .playedIndicator.indicator > * {
   box-shadow: none !important;
 }
 .actionSheetScroller,
-.dialogContentInner,
 .subtitleSyncContainer {
   margin: auto !important;
 }
@@ -666,7 +567,7 @@ html:not(.layout-tv) .playedIndicator.indicator > * {
 .dialogContentInner {
   padding: var(--spacing) !important;
   /* Bottom margin includes header and footer and spacing. */
-  margin: var(--spacing) var(--spacing) calc(6 * var(--spacing)) var(--spacing) !important;
+  margin: var(--spacing) var(--spacing) calc(6 * var(--spacing)) !important;
 }
 .formDialogHeader,
 .formDialogFooter {
@@ -674,21 +575,14 @@ html:not(.layout-tv) .playedIndicator.indicator > * {
   background: var(--transparent) !important;
 }
 .formDialogFooter {
-  -webkit-align-items: flex-end !important;
-  align-items: flex-end !important;
-  bottom: 0 !important;
-  display: -webkit-flex !important;
-  display: flex !important;
-  left: 0 !important;
-  padding: var(--spacing) var(--spacing) !important;
+  /* Undo the TV layout's relative, centered footer. */
   position: absolute !important;
-  right: 0 !important;
-  z-index: 1 !important;
+  align-items: flex-end !important;
+  padding: var(--spacing) !important;
 }
 .formDialogHeader button,
 .formDialogFooter button {
   background: transparent !important;
-  -webkit-flex-basis: unset !important;
   flex-basis: unset !important;
   padding: unset !important;
   width: unset !important;
@@ -728,7 +622,6 @@ html:not(.layout-tv) .playedIndicator.indicator > * {
    ========================================================================== */
 
 .alphaPicker {
-  visibility: hidden !important;
   display: none !important;
 }
 .padded-right-withalphapicker {
