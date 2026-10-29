@@ -79,7 +79,9 @@ body {
 
 .pageTabContent,
 .detailRibbon,
-.detailPageSecondaryContainer {
+.detailPageSecondaryContainer,
+.skinHeader,
+.skinHeader.semiTransparent {
   background: transparent !important;
 }
 
@@ -89,54 +91,15 @@ textarea {
   background: color-mix(in srgb, var(--background) 97%, #ffffff 3%) !important;
 }
 
-/* Frosted glass panels. */
-
-html.layout-tv .skinHeader,
-html.layout-tv .skinHeader.semiTransparent {
-  background: transparent !important;
-}
-html.layout-tv .mainDrawer,
-html.layout-tv .listItem:hover:not(.actionSheetMenuItem),
-html.layout-tv .cardBox button:not(.actionSheetMenuItem),
-html.layout-tv .cardIndicators .indicator,
-html.layout-tv .indicators .indicator,
-html.layout-tv .sliderBubble:not(.hide) {
+/* Transparent rounded panels. */
+.mainDrawer,
+.listItem:hover:not(.actionSheetMenuItem),
+.cardBox button:not(.actionSheetMenuItem),
+.cardIndicators .indicator,
+.indicators .indicator,
+.sliderBubble:not(.hide) {
   background: transparent !important;
   border-radius: var(--radius) !important;
-}
-html.layout-tv .upNextContainer {
-  color: var(--focus) !important;
-  background: var(--transparent) !important;
-
-  border: var(--border) solid var(--focus) !important;
-  border-radius: calc(2 * var(--radius)) !important;
-}
-
-html:not(.layout-tv) .listItem button.itemAction {
-  display: none !important;
-}
-html:not(.layout-tv) .skinHeader,
-html:not(.layout-tv) .skinHeader.semiTransparent,
-html:not(.layout-tv) .mainDrawer,
-html:not(.layout-tv) .listItem:hover:not(.actionSheetMenuItem),
-html:not(.layout-tv) .cardBox button:not(.actionSheetMenuItem),
-html:not(.layout-tv) .cardIndicators .indicator,
-html:not(.layout-tv) .indicators .indicator,
-html:not(.layout-tv) .sliderBubble:not(.hide),
-html:not(.layout-tv) .MuiPaper-elevation {
-  background: transparent !important;
-  -webkit-backdrop-filter: blur(var(--radius)) !important;
-  backdrop-filter: blur(var(--radius)) !important;
-  border-radius: var(--radius) !important;
-}
-html:not(.layout-tv) .upNextContainer {
-  color: var(--focus) !important;
-  background: var(--transparent) !important;
-  -webkit-backdrop-filter: blur(var(--radius)) !important;
-  backdrop-filter: blur(var(--radius)) !important;
-
-  border: var(--border) solid var(--focus) !important;
-  border-radius: calc(2 * var(--radius)) !important;
 }
 
 /* ==========================================================================
@@ -497,7 +460,14 @@ button.show-focus:hover .ratingbutton-icon-withrating {
   margin-bottom: var(--radius) !important;
 }
 
-/* Next episode (already frosted). */
+/* Next episode. */
+.upNextContainer {
+  color: var(--focus) !important;
+  background: var(--transparent) !important;
+
+  border: var(--border) solid var(--focus) !important;
+  border-radius: calc(2 * var(--radius)) !important;
+}
 .upNextContainer.upNextDialog h2 {
   display: flex !important;
   flex-direction: column !important; /* Force countdown on next line/below */
@@ -534,33 +504,11 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 }
 
 /* Distinguish "seen" cards. */
-
-/* TV: */
-html.layout-tv .cardBox:has(.playedIndicator.indicator) {
+.cardBox:has(.playedIndicator.indicator) {
   opacity: 0.25 !important;
 }
-html.layout-tv .cardBox:has(.playedIndicator.indicator) bdi {
+.cardBox:has(.playedIndicator.indicator) bdi {
   color: var(--contrast) !important;
-}
-/* Non-TV: */
-html:not(.layout-tv) .cardIndicators:has(.playedIndicator.indicator) {
-  left: 0 !important;
-  top: 0 !important;
-  height: 100% !important;
-  width: 100% !important;
-  -webkit-backdrop-filter: blur(2px) !important;
-  backdrop-filter: blur(2px) !important;
-}
-html:not(.layout-tv) .playedIndicator.indicator {
-  height: 100% !important;
-  width: 100% !important;
-}
-html:not(.layout-tv) .playedIndicator.indicator > * {
-  color: var(--contrast) !important;
-  position: absolute !important;
-  top: 0.225em !important;
-  right: 0.225em !important;
-  width: 1em;
 }
 
 /* Progress bar on cards */
@@ -577,7 +525,7 @@ html:not(.layout-tv) .playedIndicator.indicator > * {
   border-radius: var(--round) !important;
 }
 
-/* Card focus outline (TV) */
+/* Card focus outline */
 .cardBox {
   /* Pad to allow outline; outline width + outline offset. */
   margin: calc(2 * var(--offset)) !important;
