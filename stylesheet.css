@@ -146,18 +146,11 @@ html:not(.layout-tv) .upNextContainer {
 button {
   transition: unset !important;
   border-radius: unset !important;
-  background: var(--transparent) !important;
+  background: transparent !important;
   color: var(--text) !important;
 }
 h1.parentName {
   margin: var(--border) 0 0 !important;
-}
-
-.skinHeader button,
-.subtitleSync button,
-.cardOverlayButtonIcon,
-.MuiPaper-elevation button {
-  background: transparent !important;
 }
 
 .MuiPaper-elevation button {
@@ -544,7 +537,7 @@ button.show-focus:hover .ratingbutton-icon-withrating {
 
 /* TV: */
 html.layout-tv .cardBox:has(.playedIndicator.indicator) {
-  opacity: 0.5 !important;
+  opacity: 0.25 !important;
 }
 html.layout-tv .cardBox:has(.playedIndicator.indicator) bdi {
   color: var(--contrast) !important;
